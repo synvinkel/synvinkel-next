@@ -18,8 +18,6 @@ const Home = () => {
 
   return (
     <>
-      <div className='hero'>
-
         <Md source={`
 # Hej det här är markdown
 
@@ -36,7 +34,6 @@ Den kan ju också läsas från fil.
           </Link>
 
         </div>
-      </div>
 
       <style jsx>{`
 
