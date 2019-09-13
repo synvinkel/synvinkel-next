@@ -1,13 +1,17 @@
-module.exports = {
-    exportPathMap: function () {
-        const pages = require('./walkpages')('pages')
+const withCSS = require('@zeit/next-css')
 
-        const paths = {}
+module.exports = withCSS(
+    {
+        exportPathMap: function () {
+            const pages = require('./walkpages')('pages')
 
-        pages.forEach(page => {
-            paths[page] = { page }
-        })
+            const paths = {}
 
-        return paths
+            pages.forEach(page => {
+                paths[page] = { page }
+            })
+
+            return paths
+        }
     }
-}
+)
