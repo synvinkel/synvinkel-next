@@ -7,14 +7,14 @@ import Md from '../components/Md'
 const Home = () => {
 
   const [time, setTime] = useState(0)
-  // useEffect(() => {
-  //   const id = setInterval(() => {
-  //     setTime(time + 1)
-  //   }, 100)
-  //   return () => {
-  //     clearInterval(id)
-  //   }
-  // }, [])
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTime(time + 1)
+    }, 100)
+    return () => {
+      clearInterval(id)
+    }
+  }, [])
 
   return (
     <>
