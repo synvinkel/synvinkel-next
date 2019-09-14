@@ -10,8 +10,8 @@ const withLayout = (Page, title) => {
             <style jsx global>{`
 
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 main {
@@ -30,9 +30,19 @@ article {
     max-width: 50rem;
 }
 
+article a {
+    color: inherit;
+}
+
 
 h1,h2,h3 {
-    line-height:1.2
+    line-height:1.2;
+    margin-bottom: 2rem;
+    font-family: sans-serif;
+}
+
+article p {
+    margin-bottom: 1rem;
 }
 
 @media (max-width: 800px){
