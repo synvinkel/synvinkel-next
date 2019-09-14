@@ -5,8 +5,8 @@ const withLayout = (Page, title) => {
     return () => (
 
         <>
-        <MyHead title={title} />
-        <Page />
+            <MyHead title={title} />
+            <Page />
             <style jsx global>{`
 
 * {
@@ -16,19 +16,29 @@ const withLayout = (Page, title) => {
 }
 main {
     margin:40px auto;
+    padding:0 100px;
     max-width:1600px;
+}
+
+main, article {
     line-height:1.6;
     font-size:18px;
     color:#444;
-    padding:0 10px;
 }
 
 article {
-    max-width: 900px;
+    max-width: 50rem;
 }
+
 
 h1,h2,h3 {
     line-height:1.2
+}
+
+@media (max-width: 800px){
+ main {
+     padding: 0 10px;
+ }
 }
 `}
             </style>

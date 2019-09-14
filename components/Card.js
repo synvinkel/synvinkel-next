@@ -17,7 +17,6 @@ const Card = ({ href }) => (
   .card div {
     height: 100%;
     border: 1px solid black;
-    background: pink;
     background-image: url(https://images.unsplash.com/photo-1568404642193-7caa1575e939?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80);
     background-size: cover;
   }

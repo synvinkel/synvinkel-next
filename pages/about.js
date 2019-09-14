@@ -2,26 +2,20 @@
 import withLayout from '../components/Layout'
 import Header from '../components/Header'
 
-const Home = () => {
+const About = () => {
 
 
   return (
-    <div className="home">
+    <>
+      <Header />
+      <main>
 
-     <Header />
-
-      <style jsx>{`
-
-.home {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-}
-
-
-    `}</style>
-    </div>
+        <article>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit aliquam amet dolorum unde obcaecati. Voluptatibus quas minus quos. Magnam a tempora perspiciatis accusamus, nostrum necessitatibus excepturi molestias cupiditate. Ut, inventore qui unde fuga nam labore explicabo earum enim quaerat sed?
+      </article>
+      </main>
+    </>
   )
 }
 
-export default withLayout(Home)
+export default withLayout(About)

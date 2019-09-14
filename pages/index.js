@@ -10,14 +10,7 @@ const Home = () => {
       <Header />
 
       <main>
-        <Card href="/about" />
-        <Card href="/about" />
-        <Card href="/about" />
-        <Card href="/about" />
-        <Card href="/about" />
-        <Card href="/about" />
-        <Card href="/about" />
-        <Card href="/about" />
+
       </main>
 
       <style jsx>{`
