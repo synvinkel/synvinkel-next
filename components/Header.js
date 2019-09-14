@@ -14,12 +14,11 @@ const Header = ({current}) => (
     </div>
     <nav>
       <Link href="/"><a>things</a></Link>
-      <Link href="/about"><a>about / contact</a></Link>
+      <Link href="/about"><a><span>about /</span><span>contact</span></a></Link>
     </nav>
 
     <style jsx>{`
-    .header {
-  min-height: 200px;
+.header {
   margin: auto 30px;
   display: flex;
   justify-content: space-between;
@@ -50,21 +49,44 @@ li+li::before{
   align-items: center;
 }
 
-nav {
+nav, nav * {
   display: flex;
   flex-wrap: wrap;
   font-weight: 300;
   font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
 }
 
-nav a {
+a {
   text-decoration: none;
   color: black;
   text-transform: uppercase;
 }
 
-nav a+a{
+a+a{
   margin-left: 20px;
+}
+
+span+span {
+    margin-left: 8px;
+}
+
+@media (max-width: 800px){
+    .logo {
+        height: 50px;
+    }
+
+    nav {
+    }
+
+    nav, nav * {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    a+a{
+        margin-top: 10px;
+        margin-left: 0;
+    }
 }
         `}</style>
   </div>
