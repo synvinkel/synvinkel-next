@@ -30,7 +30,8 @@ const Header = ({ current }) => {
             <style jsx>{`
 .header {
   max-width: 1600px;
-  margin: auto 50px;
+  margin: auto;
+  padding: 0 30px;
   display: flex;
   justify-content: space-between;
   padding-top: 50px;
@@ -87,7 +88,8 @@ span+span {
 @media (max-width: 800px){
 
     .header {
-        margin: auto 30px;
+        padding: 0 20px;
+        margin-top: 20px;
     }
 
     .logo {
