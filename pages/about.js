@@ -11,6 +11,9 @@ const About = () => {
       <Header />
       <main>
 
+    {/* Background div for placing images */}
+    <div className="bg" />
+
         <article>
           <header>
             <h1>Johnnie Hård</h1>
@@ -27,6 +30,22 @@ const About = () => {
         </article>
       </main>
       <style jsx>{`
+
+.bg {
+  z-index: -10;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+main {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background: white;
+}
 
 header {
   margin-bottom: 2rem;
