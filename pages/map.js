@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import withLayout from '../components/Layout'
+import Header from '../components/Header'
 
 const DynamicMap = dynamic(() => import('../components/Map'), {
     loading: () => <p>Loading...</p>,
@@ -7,18 +8,24 @@ const DynamicMap = dynamic(() => import('../components/Map'), {
 })
 
 const Map = () => (
-    <div className="mapcontainer">
-        <DynamicMap />
-        <style jsx global>{`
+    <>
+    <Header />
+    <main>
+
+        <div className="mapcontainer">
+            <DynamicMap />
+            <style jsx global>{`
 body{
     margin: 0;
 }
 
 .mapcontainer {
-    height: 100vh;
+    height: 70vh;
 }
         `}</style>
-    </div>
+        </div>
+    </main>
+    </>
 )
 
 export default withLayout(Map)
