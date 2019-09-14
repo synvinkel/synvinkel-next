@@ -1,23 +1,33 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-const Header = ({current}) => (
-    <div className="header">
-    <div className="logo-container">
-      <div className="logo">
-        SYNVINKEL
-      </div>
-      <ul>
-        <li>maps</li>
-        <li>code</li>
-        <li>play</li>
-      </ul>
-    </div>
-    <nav>
-      <Link href="/"><a>things</a></Link>
-      <Link href="/about"><a><span>about /</span><span>contact</span></a></Link>
-    </nav>
+const Header = ({ current }) => {
+    
+    const router = useRouter()
+    const linkstyle = (href) => href === router.pathname ? (
+        {opacity: 1}
+    ):(
+        {opacity: 0.5}
+    )
 
-    <style jsx>{`
+    return (
+        <div className="header">
+            <div className="logo-container">
+                <div className="logo">
+                    SYNVINKEL
+                </div>
+                <ul>
+                    <li>maps</li>
+                    <li>code</li>
+                    <li>play</li>
+                </ul>
+            </div>
+            <nav>
+                <Link href="/"><a style={linkstyle("/")}>things</a></Link>
+                <Link href="/about"><a style={linkstyle("/about")}><span>about /</span><span>contact</span></a></Link>
+            </nav>
+
+            <style jsx>{`
 .header {
   max-width: 1600px;
   margin: auto 50px;
@@ -90,7 +100,8 @@ span+span {
     }
 }
         `}</style>
-  </div>
-)
+        </div>
+    )
+}
 
 export default Header
