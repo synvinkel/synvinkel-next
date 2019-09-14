@@ -87,6 +87,7 @@ span+span {
     }
 
     nav {
+        padding-top: 5px;
     }
 
     nav, nav * {
