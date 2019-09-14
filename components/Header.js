@@ -44,6 +44,10 @@ ul {
   padding: 10px 20px;
 }
 
+li {
+    opacity: 0.6;
+}
+
 li+li::before{
  content: "—";
  margin-right: 10px;
@@ -55,7 +59,7 @@ li+li::before{
   display: flex;
   justify-content: center;
   font-size: 30px;
-  background: black;
+  background: #fec752;
   color: white;
   align-items: center;
 }
@@ -76,12 +80,16 @@ a {
 a+a{
   margin-left: 20px;
 }
-
 span+span {
     margin-left: 8px;
 }
 
 @media (max-width: 800px){
+
+    .header {
+        margin: auto 30px;
+    }
+
     .logo {
         height: 50px;
     }
