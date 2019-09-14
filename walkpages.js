@@ -20,7 +20,7 @@ const walkpages = (root, dir, filelist) => {
             if (file === 'index') {
                 file = ''
             }
-            filelist.push(`/${filepath}${file !== '' ? `/${file}` : ''}`)
+            filelist.push(`/${filepath}${file !== '' ? `${filepath === '' ? '' : '/'}${file}` : ''}`)
         }
     })
     return filelist
