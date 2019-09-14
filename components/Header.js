@@ -19,7 +19,8 @@ const Header = ({current}) => (
 
     <style jsx>{`
 .header {
-  margin: auto 30px;
+  max-width: 1600px;
+  margin: auto 50px;
   display: flex;
   justify-content: space-between;
   padding-top: 50px;
