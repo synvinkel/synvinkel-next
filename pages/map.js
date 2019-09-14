@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import withLayout from '../components/Layout'
 
 const DynamicMap = dynamic(() => import('../components/Map'), {
     loading: () => <p>Loading...</p>,
@@ -20,4 +21,4 @@ body{
     </div>
 )
 
-export default Map
+export default withLayout(Map)
