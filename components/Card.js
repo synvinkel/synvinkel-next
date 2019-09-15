@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const Card = ({ href }) => (
+const Card = ({ href, img }) => (
     <div className="card">
       <Link href={href}>
         <a>
@@ -17,7 +17,7 @@ const Card = ({ href }) => (
   .card div {
     height: 100%;
     border: 1px solid black;
-    background-image: url(https://images.unsplash.com/photo-1568404642193-7caa1575e939?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80);
+    background-image: url(${img});
     background-size: cover;
   }
   

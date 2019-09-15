@@ -10,7 +10,7 @@ const Home = () => {
       <Header />
 
       <main>
-
+        <Card href="/code/geolines" img="/static/code/geolines/geolines.jpg" />
       </main>
 
       <style jsx>{`
