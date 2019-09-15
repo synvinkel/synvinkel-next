@@ -127,7 +127,7 @@ class App extends Component {
         this.nextRot = newrot;
     };
 
-    mouseDown = (e) => {
+    onClick = (e) => {
         this.e = ease(this.easeDuration)
         this.newPoint(
             geoInterpolate(
@@ -141,9 +141,7 @@ class App extends Component {
         const { width, height } = this.state
         return (
             <canvas
-                onMouseDown={this.mouseDown}
-                onTouchStart={this.mouseDown}
-                onMouseMove={this.mousemove}
+                onClick={this.onClick}
                 ref={(el) => { this.canvas = el }}
                 width={width}
                 height={height}
