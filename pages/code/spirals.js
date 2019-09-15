@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import Header from '../../components/Header'
 import withLayout from '../../components/Layout'
 
+import BackButton from '../../components/BackButton'
 import Spirals from '../../components/code/spirals'
 
 const Page = () => {
@@ -15,6 +16,7 @@ const Page = () => {
     return (
 
         <>
+        <BackButton color="orange" />
             <div id="graphic" ref={el => (ref.current = el)} >
                 <canvas />
             </div>
