@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
-// import logo from './logo.svg';
-// import './App.css';
+import { Component } from 'react';
 import {
-    //   geoMercator,
     geoPath,
     geoOrthographic,
     geoGraticule,
@@ -10,13 +7,7 @@ import {
 } from 'd3-geo'
 import { easeCubic } from "d3-ease";
 import { scaleLinear } from 'd3-scale'
-// import { coordEach, coordReduce } from '@turf/meta'
-// import { select } from 'd3-selection'
-// import { transition } from 'd3-transition'
 import { lineString } from '@turf/helpers'
-
-// import ParticleSystem from './ParticleSystem'
-
 function ease() {
     const start = new Date().getTime();
     return (duration) => {
@@ -36,20 +27,13 @@ class App extends Component {
         this.projection = geoOrthographic()
         this.running = true
         this.state = {
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: props.width || 500,
+            height: props.height || 500,
         }
     }
 
     componentDidMount() {
         this.getData()
-        window.addEventListener('resize', () => {
-            this.setState({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            })
-            this.init()
-        })
     }
 
     componentWillUnmount() {
@@ -77,9 +61,6 @@ class App extends Component {
         this.e = ease(this.easeDuration)
         this.projection.fitExtent([[50, 50], [width - 50, height - 50]], geojson)
 
-        this.pss = []
-        // this.ps = new ParticleSystem(width / 2, height / 2, 1000)
-        // this.ps.init()
         this.newPoint(geoInterpolate([145, -27], [15, 59]))
 
         this.projection.translate([width / 2, height / 2])
@@ -105,27 +86,10 @@ class App extends Component {
     }
 
     update = () => {
-        const { geojson, width, height } = this.state
         const ctx = this.canvas.getContext('2d')
         this.rot = this.startRot + (this.nextRot - this.startRot) * this.e()
-        // this.projection.rotate([this.rotScale(this.rot), 0, 0])
-        // this.projection.center(this.geoInterpolate(this.e()))
         const r = this.geoInterpolate(this.e(1000))
-        // console.log(this.e(1000))
-        // console.log(test)
         this.projection.rotate([-r[0], -r[1]])
-
-        // if (!this.arrived && this.e(1250) === 1) {
-        //   this.arrived = true
-        //   this.pss.push(new ParticleSystem(this.projection.invert([width / 2, height / 2]), 1000))
-        // }
-
-        // this.ps.update()
-        for (let i = this.pss.length; i > 0; i--) {
-            const ps = this.pss[i - 1]
-            ps.update(this.projection)
-            if (!ps.running) this.pss.splice(i - 1, 1)
-        }
     }
 
     paint = () => {
@@ -137,8 +101,6 @@ class App extends Component {
         ctx.clearRect(0, 0, width, height)
         ctx.fillStyle = 'rgb(10, 10, 10)'
         ctx.fillRect(0, 0, width, height)
-
-        // ctx.strokeStyle = 'white'
 
         geojson.features.forEach((f, i) => {
             ctx.beginPath()
@@ -158,22 +120,12 @@ class App extends Component {
         ctx.lineWidth = 1
         ctx.strokeStyle = 'rgba(200, 100, 50, 0.1)'
         ctx.stroke()
-
-        this.pss.forEach(ps => {
-            ps.draw(ctx, this.projection, geopath)
-        })
     }
 
     newRot = (newrot) => {
         this.startRot = this.startRot + (this.nextRot - this.startRot) * this.e();
-        // this.e = ease(this.easeDuration);
         this.nextRot = newrot;
     };
-
-    mousemove = (e) => {
-        // const { clientX, clientY } = e
-        // this.newRot(clientX)
-    }
 
     mouseDown = (e) => {
         this.e = ease(this.easeDuration)

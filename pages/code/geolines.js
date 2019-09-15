@@ -3,8 +3,6 @@ import dynamic from 'next/dynamic'
 import Header from '../../components/Header'
 import withLayout from '../../components/Layout'
 
-// import GeoLines from '../../components/code/geolines'
-
 const GeoLines = dynamic(() => import('../../components/code/geolines'), {
   loading: () => <p>Loading...</p>,
   ssr: false
@@ -16,14 +14,32 @@ const Page = () => (
     <Header />
 
     <main>
-      <GeoLines />
+
+
       <article>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus maxime architecto rem dolorum, reiciendis exercitationem sunt nisi consequatur officiis accusamus, iure itaque et dicta eum quo distinctio eaque optio voluptate quis dignissimos vel porro voluptatibus. Explicabo aspernatur eius molestiae dignissimos aliquam soluta? Nihil dolorem amet beatae expedita distinctio molestias repellendus!
+        <h1>Animating d3-geo with d3-ease</h1>
+
+        <p>Below is a world map drawn on an html <pre className="inline">{`<canvas>`}</pre> element</p>
+
+        <div className="canvascontainer">
+          <GeoLines />
+        </div>
+        <p>
+
+        </p>
       </article>
     </main>
 
     <style jsx>{`
- 
+      .canvascontainer {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      pre.inline {
+        display: inline;
+      }
     `}</style>
   </>
 )
