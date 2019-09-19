@@ -58,7 +58,7 @@ class App extends Component {
         this.startRot = 0
         this.nextRot = this.startRot
         this.rot = this.startRot
-        this.e = ease(this.easeDuration)
+        this.e = ease(0)
         this.projection.fitExtent([[50, 50], [width - 50, height - 50]], geojson)
 
         this.newPoint(geoInterpolate([145, -27], [15, 59]))
