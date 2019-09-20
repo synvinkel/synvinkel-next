@@ -1,14 +1,24 @@
 import dynamic from 'next/dynamic'
+import { useEffect } from 'react'
+
 import withLayout from '../../components/Layout'
 import Header from '../../components/Header'
 
 const GLSLCanvas = dynamic(() => import('../../components/code/shaders'), {
-    ssr: false
+    ssr: false,
+    loading: () => null
 })
 
 const Shaders = () => {
 
     const width = 400, height = 400
+
+    // just to see the latest one while developing
+    useEffect(() => {
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight)
+        }, 1000)
+    })
 
     return (
         <>
@@ -214,6 +224,76 @@ const Shaders = () => {
                     `}
                     />
                     <p>0008</p>
+                </div>
+
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                            #ifdef GL_ES
+                            precision mediump float;
+                            #endif
+
+                            #define PI 3.14159265359
+
+                            uniform vec2 u_resolution;
+                            uniform vec2 u_mouse;
+                            uniform float u_time;
+        
+                            float plot(vec2 st, float pct){
+                                return  smoothstep(pct-0.02, pct, st.y) -
+                                        smoothstep(pct, pct+0.02, st.y);
+                            }
+                            void main() {
+                                vec2 st = gl_FragCoord.xy/u_resolution;
+        
+                                float y = sqrt(st.x / PI * 2.0);
+        
+                                vec3 color = vec3(y);
+        
+                                float pct = plot(st, y);
+                                color = (1.0-pct)*color+pct*vec3(0.0, 1.0, 0.0);
+                                
+                                gl_FragColor = vec4(color, 1.0);
+                            }             
+                        `}
+                    />
+                    <p>0009</p>
+                </div>
+
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                            #ifdef GL_ES
+                            precision mediump float;
+                            #endif
+
+                            #define PI 3.14159265359
+
+                            uniform vec2 u_resolution;
+                            uniform vec2 u_mouse;
+                            uniform float u_time;
+        
+                            float plot(vec2 st, float pct){
+                                return  smoothstep(pct-0.02, pct, st.y) -
+                                        smoothstep(pct, pct+0.02, st.y);
+                            }
+                            void main() {
+                                vec2 st = gl_FragCoord.xy/u_resolution;
+        
+                                float y = pow(st.x, 0.2 + sin(u_time*2.0)+1.0 + sin(u_time*2.0)+1.0);
+        
+                                vec3 color = vec3(y);
+        
+                                float pct = plot(st, y);
+                                color = (1.0-pct)*color+pct*vec3(0.0, 1.0, 0.0);
+                                
+                                gl_FragColor = vec4(color, 1.0);
+                            }             
+                        `}
+                    />
+                    <p>0010</p>
                 </div>
 
                 <style jsx global>{`
