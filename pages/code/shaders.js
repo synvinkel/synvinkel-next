@@ -8,12 +8,15 @@ const GLSLCanvas = dynamic(() => import('../../components/code/shaders'), {
 
 const Shaders = () => {
 
-    const width = 300, height = 300
+    const width = 400, height = 400
 
     return (
         <>
             {/* <Header /> */}
             <main>
+                <p style={{ width: "100%"}}>
+                    Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
+                </p>
                 <div className="canvascontainer">
                     <GLSLCanvas
                         width={width} height={height}
@@ -145,7 +148,7 @@ const Shaders = () => {
                     }        
                     `}
                     />
-                    <p>0005</p>
+                    <p>0006</p>
                 </div>
 
                 <style jsx global>{`
@@ -158,10 +161,12 @@ body {
                 <style jsx>{`
 main {
     margin: 0 auto;
+    padding: 0;
     display: flex;
     flex-wrap: wrap;
-    max-width: 1500px;
+    max-width: 1600px;
 }
+
 .canvascontainer {
     position: relative;
 }
