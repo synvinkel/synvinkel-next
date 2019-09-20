@@ -95,6 +95,59 @@ const Shaders = () => {
                     <p>0004</p>
                 </div>
 
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                    #ifdef GL_ES
+                    precision mediump float;
+                    #endif
+                    
+                    uniform vec2 u_resolution;
+                    uniform vec2 u_mouse;
+                    uniform float u_time;
+
+                    void main() {
+                        vec2 st = gl_FragCoord.xy/u_resolution.xy;
+                        gl_FragColor = vec4(
+                            st.x,
+                            st.y,
+                            0.0,
+                            1.0
+                        );
+                    }        
+                    `}
+                    />
+                    <p>0005</p>
+
+                </div>
+
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                    #ifdef GL_ES
+                    precision mediump float;
+                    #endif
+                    
+                    uniform vec2 u_resolution;
+                    uniform vec2 u_mouse;
+                    uniform float u_time;
+
+                    void main() {
+                        vec2 st = gl_FragCoord.xy/u_mouse.xy;
+                        gl_FragColor = vec4(
+                            abs(sin(u_time) / st.x),
+                            st.y,
+                            st.x / st.y,
+                            1.0
+                        );
+                    }        
+                    `}
+                    />
+                    <p>0005</p>
+                </div>
+
                 <style jsx global>{`
 body {
     padding: 0;
@@ -107,7 +160,7 @@ main {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    max-width: 1600px;
+    max-width: 1500px;
 }
 .canvascontainer {
     position: relative;
