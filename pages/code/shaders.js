@@ -72,6 +72,29 @@ const Shaders = () => {
                     <p>0003</p>
                 </div>
 
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                    #ifdef GL_ES
+                    precision mediump float;
+                    #endif
+                    
+                    uniform float u_time;
+                    
+                    void main() {
+                        gl_FragColor = vec4(
+                            abs(sin(u_time * 0.1)),
+                            abs(cos(u_time * 0.8)),
+                            abs(sin(u_time * 2.0)),
+                            1.0
+                        );
+                    }        
+                    `}
+                    />
+                    <p>0004</p>
+                </div>
+
                 <style jsx global>{`
 body {
     padding: 0;
