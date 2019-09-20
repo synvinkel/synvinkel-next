@@ -14,7 +14,7 @@ const Shaders = () => {
         <>
             {/* <Header /> */}
             <main>
-                <p style={{ width: "100%"}}>
+                <p style={{ width: "100%" }}>
                     Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
                 </p>
                 <div className="canvascontainer">
@@ -182,6 +182,38 @@ const Shaders = () => {
                     `}
                     />
                     <p>0007</p>
+                </div>
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                    #ifdef GL_ES
+                    precision mediump float;
+                    #endif
+                    
+                    uniform vec2 u_resolution;
+                    uniform vec2 u_mouse;
+                    uniform float u_time;
+
+                    float plot(vec2 st, float pct){
+                        return  smoothstep(pct-0.02, pct, st.y) -
+                                smoothstep(pct, pct+0.02, st.y);
+                    }
+                    void main() {
+                        vec2 st = gl_FragCoord.xy/u_resolution;
+
+                        float y = pow(st.x, 5.0);
+
+                        vec3 color = vec3(y);
+
+                        float pct = plot(st, y);
+                        color = (1.0-pct)*color+pct*vec3(0.0, 1.0, 0.0);
+                        
+                        gl_FragColor = vec4(color, 1.0);
+                    }        
+                    `}
+                    />
+                    <p>0008</p>
                 </div>
 
                 <style jsx global>{`
