@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, Component } from 'react'
+import { Component } from 'react'
 import withLayout from '../../components/Layout'
 
 
@@ -21,6 +21,29 @@ class Boundary {
         ctx.strokeStyle = 'white'
         ctx.moveTo(this.a.x, this.a.y)
         ctx.lineTo(this.b.x, this.b.y)
+        ctx.lineWidth = 2
+        ctx.stroke()
+        ctx.restore()
+    }
+}
+
+class Ray {
+    constructor(x, y) {
+        this.pos = new Vector(x, y)
+        this.dir = new Vector(1, 0)
+    }
+
+    show(ctx) {
+        const {x, y} = this.pos
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.fillStyle = 'red'
+        ctx.strokeStyle = 'red'
+        // ctx.fillRect(0, 0, 5, 5)
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.lineTo(this.dir.x * 20, this.dir.y * 20)
         ctx.stroke()
         ctx.restore()
     }
@@ -31,7 +54,8 @@ class Raycasting extends Component {
     constructor() {
         super()
         this.state = {
-            boundaries: []
+            boundaries: [],
+            rays: []
         }
     }
 
@@ -46,6 +70,7 @@ class Raycasting extends Component {
         this.canvas.height = this.height
 
         this.setState({ boundaries: [...this.state.boundaries, new Boundary(0, 0, this.width, this.height)] })
+        this.setState({ rays: [...this.state.rays, new Ray(this.width * .25, this.height * .75, this.width * .75, this.height * .25)] })
 
         this.loop()
     }
@@ -53,8 +78,9 @@ class Raycasting extends Component {
     loop = () => {
         this.ctx.fillStyle = 'black'
         this.ctx.fillRect(0, 0, this.width, this.height)
-        const { boundaries } = this.state
+        const { boundaries, rays } = this.state
         boundaries.forEach(boundary => boundary.show(this.ctx))
+        rays.forEach(ray => ray.show(this.ctx))
         requestAnimationFrame(this.loop)
     }
 
