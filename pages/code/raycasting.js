@@ -39,7 +39,7 @@ class Boundary {
     show(ctx) {
         ctx.save()
         ctx.beginPath()
-        ctx.strokeStyle = 'white'
+        ctx.strokeStyle = 'gray'
         ctx.moveTo(this.a.x, this.a.y)
         ctx.lineTo(this.b.x, this.b.y)
         ctx.lineWidth = 2
@@ -91,7 +91,7 @@ class Ray {
         const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den
 
         if (t > 0 && t < 1 && u > 0) {
-            return true
+            return new Vector(x1 + t * (x2 - x1), y1 + t * (y2 - y1))
         } else {
             return
         }
@@ -118,7 +118,7 @@ class Raycasting extends Component {
         this.canvas.width = this.width
         this.canvas.height = this.height
 
-        this.setState({ boundaries: [...this.state.boundaries, new Boundary(0, 0, this.width, this.height)] })
+        this.setState({ boundaries: [...this.state.boundaries, new Boundary(this.width * 0.25, this.height * 0.25, this.width * 0.75, this.height * 0.75)] })
         this.setState({ ray: new Ray(this.width * .25, this.height * .75, this.width * .75, this.height * .25) })
 
         this.loop()
@@ -128,18 +128,30 @@ class Raycasting extends Component {
         this.ctx.fillStyle = 'black'
         this.ctx.fillRect(0, 0, this.width, this.height)
         const { boundaries, ray } = this.state
-        if (ray) boundaries.forEach(wall => ray.cast(wall))
+
+        let hits = []
+        if (ray) hits = boundaries.map(wall => ray.cast(wall))
 
         boundaries.forEach(boundary => boundary.show(this.ctx))
         if (ray) ray.show(this.ctx)
+
+        hits.forEach(pt => {
+            if (pt) {
+                this.ctx.save()
+                this.ctx.fillStyle = 'red'
+                this.ctx.translate(pt.x, pt.y)
+                // this.ctx.ellipse(0, 0, 5, 5, 0, 0, Math.PI * 2)
+                this.ctx.fillRect(-2, -2, 5, 5)
+                // this.ctx.fill()
+                this.ctx.restore()
+            }
+        })
 
         requestAnimationFrame(this.loop)
     }
 
     mouseMove = (e) => {
         const { ray } = this.state
-        console.log(e.clientX, e.clientY)
-        console.log(e)
         ray.lookAt(e.clientX, e.clientY)
     }
 
