@@ -1,6 +1,12 @@
 import { Component } from 'react'
 import withLayout from '../../components/Layout'
 
+const c = {
+    orange: '#eca936',
+    green: '#a8c875',
+    yellow: '#e2ef12',
+    white: '#f4f9ec'
+}
 
 class Vector {
     constructor(x, y) {
@@ -64,15 +70,17 @@ class Ray {
         let { x, y } = this.pos
         ctx.save()
         ctx.translate(x, y)
-        ctx.lineWidth = 2
-        ctx.strokeStyle = 'red'
+        ctx.lineWidth = 1
+        ctx.strokeStyle = c.orange
         ctx.beginPath()
         ctx.moveTo(0, 0)
         const dirmult = this.dir.mult(100)
         ctx.lineTo(dirmult.x, dirmult.y)
         ctx.stroke()
-        ctx.fillStyle = 'blue'
-        ctx.fillRect(-2, -2, 3, 3)
+        ctx.fillStyle = c.green
+        const w = 10
+        ctx.translate(-w / 2, -w / 2)
+        ctx.fillRect(0, 0, w, w)
         ctx.restore()
     }
 
@@ -125,7 +133,7 @@ class Raycasting extends Component {
     }
 
     loop = () => {
-        this.ctx.fillStyle = 'black'
+        this.ctx.fillStyle = c.white
         this.ctx.fillRect(0, 0, this.width, this.height)
         const { boundaries, ray } = this.state
 
@@ -138,11 +146,11 @@ class Raycasting extends Component {
         hits.forEach(pt => {
             if (pt) {
                 this.ctx.save()
-                this.ctx.fillStyle = 'red'
+                this.ctx.fillStyle = c.orange
                 this.ctx.translate(pt.x, pt.y)
-                // this.ctx.ellipse(0, 0, 5, 5, 0, 0, Math.PI * 2)
-                this.ctx.fillRect(-2, -2, 5, 5)
-                // this.ctx.fill()
+                const w = 10
+                this.ctx.translate(-w / 2, -w / 2)
+                this.ctx.fillRect(0, 0, w, w)
                 this.ctx.restore()
             }
         })
@@ -167,14 +175,11 @@ class Raycasting extends Component {
                 <style jsx>{`
                  
                  .container {
-                     height: 100vh;
-                     display: grid;
                      justify-content: center;
                      align-items: center;
                  }
 
                  canvas {
-                     position: absolute;
                  }
     
                 `}</style>
