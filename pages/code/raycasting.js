@@ -7,6 +7,27 @@ class Vector {
         this.x = x || 0
         this.y = y || 0
     }
+
+    copy() {
+        return new Vector(this.x, this.y)
+    }
+
+    norm() {
+        const len = this.mag()
+        let normalized = this.copy()
+        if (len !== 0) {
+            normalized = this.mult(1 / len)
+        }
+        return normalized
+    }
+
+    mult(mult) {
+        return new Vector(this.x * mult, this.y * mult)
+    }
+
+    mag() {
+        return Math.sqrt(this.x ** 2 + this.y ** 2)
+    }
 }
 
 class Boundary {
@@ -33,18 +54,25 @@ class Ray {
         this.dir = new Vector(1, 0)
     }
 
+    lookAt(x, y) {
+        this.dir.x = x - this.pos.x
+        this.dir.y = y - this.pos.y
+        this.dir = this.dir.norm()
+    }
+
     show(ctx) {
-        const { x, y } = this.pos
+        let { x, y } = this.pos
         ctx.save()
         ctx.translate(x, y)
-        ctx.fillStyle = 'red'
-        ctx.strokeStyle = 'red'
-        // ctx.fillRect(0, 0, 5, 5)
         ctx.lineWidth = 2
+        ctx.strokeStyle = 'red'
         ctx.beginPath()
         ctx.moveTo(0, 0)
-        ctx.lineTo(this.dir.x * 20, this.dir.y * 20)
+        const dirmult = this.dir.mult(100)
+        ctx.lineTo(dirmult.x, dirmult.y)
         ctx.stroke()
+        ctx.fillStyle = 'blue'
+        ctx.fillRect(-2, -2, 3, 3)
         ctx.restore()
     }
 
@@ -62,7 +90,7 @@ class Ray {
         const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den
         const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den
 
-        if(t > 0 && t < 1 && u > 0) {
+        if (t > 0 && t < 1 && u > 0) {
             return true
         } else {
             return
@@ -76,7 +104,7 @@ class Raycasting extends Component {
         super()
         this.state = {
             boundaries: [],
-            rays: []
+            ray: null
         }
     }
 
@@ -91,7 +119,7 @@ class Raycasting extends Component {
         this.canvas.height = this.height
 
         this.setState({ boundaries: [...this.state.boundaries, new Boundary(0, 0, this.width, this.height)] })
-        this.setState({ rays: [...this.state.rays, new Ray(this.width * .25, this.height * .75, this.width * .75, this.height * .25)] })
+        this.setState({ ray: new Ray(this.width * .25, this.height * .75, this.width * .75, this.height * .25) })
 
         this.loop()
     }
@@ -99,21 +127,30 @@ class Raycasting extends Component {
     loop = () => {
         this.ctx.fillStyle = 'black'
         this.ctx.fillRect(0, 0, this.width, this.height)
-        const { boundaries, rays } = this.state
-
-        rays.forEach(ray => boundaries.forEach(wall => ray.cast(wall)))
+        const { boundaries, ray } = this.state
+        if (ray) boundaries.forEach(wall => ray.cast(wall))
 
         boundaries.forEach(boundary => boundary.show(this.ctx))
-        rays.forEach(ray => ray.show(this.ctx))
+        if (ray) ray.show(this.ctx)
 
         requestAnimationFrame(this.loop)
+    }
+
+    mouseMove = (e) => {
+        const { ray } = this.state
+        console.log(e.clientX, e.clientY)
+        console.log(e)
+        ray.lookAt(e.clientX, e.clientY)
     }
 
     render() {
         return (
             <div className="container">
 
-                <canvas ref={ref => this.canvas = ref} />
+                <canvas
+                    onMouseMove={this.mouseMove}
+                    ref={ref => this.canvas = ref}
+                />
 
                 <style jsx>{`
                  
@@ -122,6 +159,10 @@ class Raycasting extends Component {
                      display: grid;
                      justify-content: center;
                      align-items: center;
+                 }
+
+                 canvas {
+                     position: absolute;
                  }
     
                 `}</style>
