@@ -168,17 +168,22 @@ class Raycasting extends Component {
     }
 
     componentDidMount() {
-        this.ctx = this.canvas.getContext('2d')
-        this.particle = new Particle(this.width * .25, this.height * .75, this.ctx)
         this.setup()
     }
 
     setup = () => {
+        this.ctx = this.canvas.getContext('2d')
+        this.particle = new Particle(this.width * .25, this.height * .75, this.ctx)
         this.width = 720, this.height = 540
         this.canvas.width = this.width
         this.canvas.height = this.height
 
-        this.setState({ boundaries: [...this.state.boundaries, new Boundary(this.width * 0.25, this.height * 0.25, this.width * 0.75, this.height * 0.75)] })
+        this.boundaries = []
+        this.boundaries.push(new Boundary(0, 0, this.width, 0))
+        this.boundaries.push(new Boundary(this.width, 0, this.width, this.height))
+        this.boundaries.push(new Boundary(this.width, this.height, 0, this.height))
+        this.boundaries.push(new Boundary(0, this.height, 0, 0))
+        this.boundaries.push(new Boundary(this.width * 0.25, this.height * 0.25, this.width * 0.75, this.height * 0.75))
 
         this.loop()
     }
@@ -186,9 +191,8 @@ class Raycasting extends Component {
     loop = () => {
         this.ctx.fillStyle = c.white
         this.ctx.fillRect(0, 0, this.width, this.height)
-        const { boundaries } = this.state
 
-        boundaries.forEach(boundary => {
+        this.boundaries.forEach(boundary => {
             boundary.show(this.ctx)
             this.particle.look(boundary)
         })
