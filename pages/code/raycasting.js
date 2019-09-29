@@ -47,6 +47,12 @@ class Vector {
     static fromAngle(angle) {
         return new Vector(Math.sin(angle), Math.cos(angle))
     }
+
+    static dist(v1, v2){
+        const distx = Math.abs(v1.x - v2.x)
+        const disty = Math.abs(v1.y - v2.y)
+        return new Vector(distx, disty).mag()
+    }
 }
 
 class Boundary {
@@ -121,7 +127,7 @@ class Particle {
         this.ctx = ctx
         this.pos = new Vector(x, y)
         this.rays = []
-        for (let angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 2 ** 6) {
+        for (let angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 1e2) {
             this.rays.push(new Ray(this.pos, angle))
         }
     }
@@ -142,19 +148,30 @@ class Particle {
         this.pos.set(x, y)
     }
 
-    look(wall) {
-        this.rays.forEach(ray => {
-            const pt = ray.cast(wall)
-            if (pt) {
+    look(walls) {
+        for (let ray of this.rays) {
+            let closest = null
+            let record = Infinity
+            for (let wall of walls) {
+                const pt = ray.cast(wall)
+                if (pt) {
+                    const d = Vector.dist(this.pos, pt)
+                    if (d < record) {
+                        record = d
+                        closest = pt
+                    }
+                }
+            }
+            if (closest) {
                 this.ctx.save()
                 this.ctx.strokeStyle = c.orange
                 this.ctx.beginPath()
                 this.ctx.moveTo(this.pos.x, this.pos.y)
-                this.ctx.lineTo(pt.x, pt.y)
+                this.ctx.lineTo(closest.x, closest.y)
                 this.ctx.stroke()
                 this.ctx.restore()
             }
-        })
+        }
     }
 }
 
@@ -192,17 +209,18 @@ class Raycasting extends Component {
         this.ctx.fillStyle = c.white
         this.ctx.fillRect(0, 0, this.width, this.height)
 
-        this.boundaries.forEach(boundary => {
-            boundary.show(this.ctx)
-            this.particle.look(boundary)
-        })
+        this.boundaries.forEach(boundary => boundary.show(this.ctx))
+        this.particle.look(this.boundaries)
         this.particle.show()
 
         requestAnimationFrame(this.loop)
     }
 
     mouseMove = (e) => {
-        this.particle.setPos(e.clientX, e.clientY)
+        const rect = this.canvas.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+        this.particle.setPos(x, y)
     }
 
     render() {
@@ -217,6 +235,8 @@ class Raycasting extends Component {
                 <style jsx>{`
                  
                  .container {
+                     height: 100vh;
+                     display: grid;
                      justify-content: center;
                      align-items: center;
                  }
