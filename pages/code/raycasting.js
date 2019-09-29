@@ -127,7 +127,8 @@ class Particle {
         this.ctx = ctx
         this.pos = new Vector(x, y)
         this.rays = []
-        for (let angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 1e2) {
+        const angleInc = Math.PI * 2 / 1e3
+        for (let angle = 0; angle < Math.PI * 2 - angleInc; angle += angleInc) {
             this.rays.push(new Ray(this.pos, angle))
         }
     }
@@ -164,8 +165,9 @@ class Particle {
             }
             if (closest) {
                 this.ctx.save()
-                this.ctx.strokeStyle = c.orange
+                this.ctx.strokeStyle = 'rgba(200, 100, 10, 0.5)'
                 this.ctx.beginPath()
+                this.ctx.lineWidth = 4
                 this.ctx.moveTo(this.pos.x, this.pos.y)
                 this.ctx.lineTo(closest.x, closest.y)
                 this.ctx.stroke()
