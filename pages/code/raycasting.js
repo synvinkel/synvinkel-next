@@ -27,12 +27,25 @@ class Vector {
         return normalized
     }
 
+    set(x, y) {
+        this.x = x
+        this.y = y
+    }
+
     mult(mult) {
         return new Vector(this.x * mult, this.y * mult)
     }
 
+    static mult(v1, v2) {
+        return new Vector(v1.x * v2.x, v1.y * v2.y)
+    }
+
     mag() {
         return Math.sqrt(this.x ** 2 + this.y ** 2)
+    }
+
+    static fromAngle(angle) {
+        return new Vector(Math.sin(angle), Math.cos(angle))
     }
 }
 
@@ -55,9 +68,10 @@ class Boundary {
 }
 
 class Ray {
-    constructor(x, y, angle) {
-        this.pos = new Vector(x, y)
-        this.dir = new Vector(Math.sin(angle), Math.cos(angle))
+    constructor(pos, angle) {
+        this.pos = pos
+        this.dir = Vector.fromAngle(angle)
+        this.hit = null
     }
 
     lookAt(x, y) {
@@ -103,36 +117,44 @@ class Ray {
 }
 
 class Particle {
-    constructor(x, y) {
+    constructor(x, y, ctx) {
+        this.ctx = ctx
         this.pos = new Vector(x, y)
         this.rays = []
-        for (let angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 2**6) {
-            this.rays.push(new Ray(x, y, angle))
+        for (let angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 2 ** 6) {
+            this.rays.push(new Ray(this.pos, angle))
         }
     }
 
-    show(ctx) {
+    show() {
         const { x, y } = this.pos
-        ctx.save()
-        ctx.translate(x, y)
-        ctx.fillStyle = c.green
+        this.ctx.save()
+        this.ctx.translate(x, y)
+        this.ctx.fillStyle = c.green
         const w = 10
-        ctx.translate(-w / 2, -w / 2)
-        ctx.fillRect(0, 0, w, w)
-        ctx.restore()
+        this.ctx.translate(-w / 2, -w / 2)
+        this.ctx.fillRect(0, 0, w, w)
+        this.ctx.restore()
 
-        this.rays.forEach(ray => ray.show(ctx))
     }
 
     setPos(x, y) {
-        this.pos = new Vector(x, y)
-        this.rays.forEach(ray => {
-            ray.pos = this.pos
-        })
+        this.pos.set(x, y)
     }
 
-    cast(wall) {
-        return this.rays.map(ray => ray.cast(wall))
+    look(wall) {
+        this.rays.forEach(ray => {
+            const pt = ray.cast(wall)
+            if (pt) {
+                this.ctx.save()
+                this.ctx.strokeStyle = c.orange
+                this.ctx.beginPath()
+                this.ctx.moveTo(this.pos.x, this.pos.y)
+                this.ctx.lineTo(pt.x, pt.y)
+                this.ctx.stroke()
+                this.ctx.restore()
+            }
+        })
     }
 }
 
@@ -142,12 +164,12 @@ class Raycasting extends Component {
         super()
         this.state = {
             boundaries: [],
-            rays: []
         }
     }
 
     componentDidMount() {
         this.ctx = this.canvas.getContext('2d')
+        this.particle = new Particle(this.width * .25, this.height * .75, this.ctx)
         this.setup()
     }
 
@@ -157,7 +179,6 @@ class Raycasting extends Component {
         this.canvas.height = this.height
 
         this.setState({ boundaries: [...this.state.boundaries, new Boundary(this.width * 0.25, this.height * 0.25, this.width * 0.75, this.height * 0.75)] })
-        this.setState({ particle: new Particle(this.width * .25, this.height * .75) })
 
         this.loop()
     }
@@ -165,39 +186,19 @@ class Raycasting extends Component {
     loop = () => {
         this.ctx.fillStyle = c.white
         this.ctx.fillRect(0, 0, this.width, this.height)
-        const { boundaries, particle } = this.state
+        const { boundaries } = this.state
 
-        let hits = []
-        if (particle) hits = boundaries.map(wall => particle.cast(wall))
-        // console.log(hits)
-
-        boundaries.forEach(boundary => boundary.show(this.ctx))
-        if (particle) particle.show(this.ctx)
-
-        if (hits.length > 0) {
-            hits[0].forEach(pt => {
-                if (pt) {
-                    console.log(pt)
-                    this.ctx.save()
-                    this.ctx.fillStyle = c.orange
-                    this.ctx.translate(pt.x, pt.y)
-                    const w = 10
-                    this.ctx.translate(-w / 2, -w / 2)
-                    this.ctx.fillRect(0, 0, w, w)
-                    this.ctx.restore()
-                }
-            })
-        }
+        boundaries.forEach(boundary => {
+            boundary.show(this.ctx)
+            this.particle.look(boundary)
+        })
+        this.particle.show()
 
         requestAnimationFrame(this.loop)
     }
 
     mouseMove = (e) => {
-        const { particle } = this.state
-        particle.setPos(e.clientX, e.clientY)
-        // particle.pos.x = e.clientX
-        // particle.pos.y = e.clientY
-        // ray.lookAt(e.clientX, e.clientY)
+        this.particle.setPos(e.clientX, e.clientY)
     }
 
     render() {
