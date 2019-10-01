@@ -3,7 +3,8 @@ import { useRef, useEffect, useState } from 'react'
 import { runInThisContext } from 'vm'
 
 class Sketch {
-    constructor(canvas) {
+    constructor(canvas, n) {
+        this.n = n
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
         this.setup()
@@ -26,6 +27,10 @@ class Sketch {
         this.ctx.fillRect(0, 0, this.width, this.height)
     }
 
+    setN = (n) => {
+        this.n = n
+    }
+
     loop = () => {
         this.background('black')
 
@@ -40,7 +45,7 @@ class Sketch {
 
         this.ctx.translate(xoffset1, this.height / 2)
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < this.n; i++) {
             let prevx = x
             let prevy = y
 
@@ -91,7 +96,7 @@ class Sketch {
         this.ctx.restore()
         this.ctx.restore()
 
-        this.time += 0.04
+        this.time += 8 / this.n * 0.04
 
         requestAnimationFrame(this.loop)
     }
@@ -100,20 +105,42 @@ class Sketch {
 export default withLayout(() => {
 
     const ref = useRef(null)
+    const [sketch, setSketch] = useState(null)
+    const [n, setN] = useState(5)
+
+    console.log(this)
 
     useEffect(() => {
-        new Sketch(ref.current)
-    })
+        setSketch(new Sketch(ref.current, n))
+    }, [])
+
+    useEffect(() => {
+        if(sketch){
+            sketch.setN(n)
+        }
+    }, [n])
 
     return (
         <div className="container">
             <canvas ref={ref} />
+            <div>
+                <input
+                    type="range" name="n" min="1" max="100"
+                    value={n}
+                    onChange={e => setN(e.target.value)}
+                />
+            </div>
             <style jsx>{`
                 .container{
                     height: 100vh;
-                    display: grid;
+                    display: flex;
+                    flex-direction: column;
                     justify-content: center;
                     align-items: center;
+                }
+                input {
+                    width: 720px;
+                    margin-top: 10px;
                 }
                 `} </style>
         </div>
