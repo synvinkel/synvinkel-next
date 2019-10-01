@@ -16,6 +16,7 @@ class Sketch {
         this.canvas.height = this.height
 
         this.time = 0
+        this.wave = []
 
         this.loop()
     }
@@ -28,30 +29,69 @@ class Sketch {
     loop = () => {
         this.background('black')
 
-        const radius = 100
+        let x = 0
+        let y = 0
+        const faint = 'rgba(255, 255, 255, 0.5)'
+        const white = 'white'
+        this.ctx.save()
+        const xoffset1 = 200
+        const xoffset2 = 170
+        const radiusbase = 75
+
+        this.ctx.translate(xoffset1, this.height / 2)
+
+        for (let i = 0; i < 5; i++) {
+            let prevx = x
+            let prevy = y
+
+            let n = i * 2 + 1
+            const radius = radiusbase * (4 / (n * Math.PI))
+
+            x += radius * Math.cos(n * this.time)
+            y += radius * Math.sin(n * this.time)
+
+            this.wave.splice(this.width - xoffset1 + xoffset2)
+
+
+            // big circle
+            this.ctx.beginPath()
+            this.ctx.lineWidth = 1
+            this.ctx.strokeStyle = faint
+            this.ctx.arc(prevx, prevy, radius, 0, Math.PI * 2)
+            this.ctx.stroke()
+
+            // joint
+            this.ctx.beginPath()
+            this.ctx.fillStyle = white
+            this.ctx.arc(x, y, 4, 0, Math.PI * 2)
+            this.ctx.fill()
+
+            // limb
+            this.ctx.beginPath()
+            this.ctx.lineWidth = 2
+            this.ctx.strokeStyle = white
+            this.ctx.moveTo(prevx, prevy)
+            this.ctx.lineTo(x, y)
+            this.ctx.stroke()
+
+
+
+        }
+        this.wave.unshift(y)
 
         this.ctx.save()
-
-        this.ctx.translate(200, this.height / 2)
+        this.ctx.translate(xoffset2, 0)
         this.ctx.beginPath()
-        this.ctx.strokeStyle = 'white'
-        this.ctx.arc(0, 0, radius, 0, Math.PI * 2)
+        this.ctx.lineWidth = 1
+        this.ctx.moveTo(x - xoffset2, y)
+        this.wave.forEach((y, i) => {
+            this.ctx.lineTo(i, y)
+        })
         this.ctx.stroke()
-
-        this.ctx.beginPath()
-        this.ctx.fillStyle = 'white'
-        const x = Math.sin(this.time) * radius, y = Math.cos(this.time) * radius
-        this.ctx.arc(x, y, 8, 0, Math.PI * 2)
-        this.ctx.fill()
-
-        this.ctx.beginPath()
-        this.ctx.moveTo(0, 0)
-        this.ctx.lineTo(x, y)
-        this.ctx.stroke()
-
+        this.ctx.restore()
         this.ctx.restore()
 
-        this.time += 0.01
+        this.time += 0.04
 
         requestAnimationFrame(this.loop)
     }
