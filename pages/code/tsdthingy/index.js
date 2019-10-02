@@ -25,7 +25,8 @@ const TSDThingy = ({ query }) => {
         async function fetchData() {
             const data = await fetch('/static/code/tsdthingy/angamonths.json')
             const json = await data.json()
-            setSynth(new Tone.Synth().toMaster())
+            const synth = new Tone.PolySynth(3, Tone.FMSynth).toMaster()
+            setSynth(synth)
             setImages(json)
         }
         fetchData()
@@ -34,6 +35,7 @@ const TSDThingy = ({ query }) => {
 
     useEffect(() => {
         if (message.length > 0) {
+
             console.log(message)
             const pad = pads.indexOf(message[1])
             const image = images[pad]
@@ -45,11 +47,11 @@ const TSDThingy = ({ query }) => {
             console.log(notes[0])
             if (message[0] === 144) {
                 console.log('noteon')
-                synth.triggerAttack(notes[0])
+                synth.triggerAttack([notes[4], notes[3], notes[2]])
             }
             else if (message[0] === 128) {
                 console.log('noteoff')
-                synth.triggerRelease(notes[0])
+                synth.triggerRelease([notes[4], notes[3], notes[2]])
             }
         }
     }, [message])
