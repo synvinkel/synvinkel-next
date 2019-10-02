@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { scaleQuantize } from "d3-scale"
+import Tone from 'tone'
 
 const pads = [48, 53, 59, 57, 54, 51, 49, 55, 58, 56, 52, 50]
 const wholetone = ["C0", "D0", "E0", "F#0", "G#0", "Bb0", "C1", "D1", "E1", "F#1", "G#1", "Bb1", "C2", "D2", "E2", "F#2", "G#2", "Bb2", "C3", "D3", "E3", "F#3", "G#3", "Bb3", "C4", "D4", "E4", "F#4", "G#4", "Bb4", "C5", "D5", "E5", "F#5", "G#5", "Bb5", "C6", "D6", "E6", "F#6", "G#6", "Bb6", "C7", "D7", "E7", "F#7", "G#7", "Bb7", "C8", "D8", "E8", "F#8", "G#8", "Bb8"]
@@ -12,6 +13,7 @@ const TSDThingy = ({ query }) => {
     const [midi, setMidi] = useState(null)
     const [message, setMessage] = useState([])
     const [images, setImages] = useState(null)
+    const [synth, setSynth] = useState(null)
 
     const onMIDIMessage = (message) => {
         message = Array.from(message.data)
@@ -23,6 +25,7 @@ const TSDThingy = ({ query }) => {
         async function fetchData() {
             const data = await fetch('/static/code/tsdthingy/angamonths.json')
             const json = await data.json()
+            setSynth(new Tone.Synth().toMaster())
             setImages(json)
         }
         fetchData()
@@ -34,12 +37,20 @@ const TSDThingy = ({ query }) => {
             console.log(message)
             const pad = pads.indexOf(message[1])
             const image = images[pad]
-            Object.keys(image.bands).forEach(key => {
+            const notes = Object.keys(image.bands).map(key => {
                 const band = image.bands[key]
                 const note = wholetoneScale(band)
-                console.log(note)
+                return note
             })
-            console.log(image)
+            console.log(notes[0])
+            if (message[0] === 144) {
+                console.log('noteon')
+                synth.triggerAttack(notes[0])
+            }
+            else if (message[0] === 128) {
+                console.log('noteoff')
+                synth.triggerRelease(notes[0])
+            }
         }
     }, [message])
 
