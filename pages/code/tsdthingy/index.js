@@ -1,14 +1,27 @@
 import { useEffect, useState } from 'react'
 
+const PADS = [48, 53, 59, 57, 54, 51, 49, 55, 58, 56, 52, 50]
+
 const TSDThingy = () => {
 
     const [midi, setMidi] = useState(null)
     const [message, setMessage] = useState([])
+    const [pads, setPads] = useState([])
 
     const onMIDIMessage = (message) => {
-        setMessage(message.data)
-        console.log(message.data)
+        message = Array.from(message.data)
+        setMessage(message)
     }
+
+    useEffect(() => {
+        if (message[0] === 144) {
+            setPads([...pads, message])
+        }
+    }, [message])
+
+    useEffect(() => {
+        console.log(pads.map(pad => pad[1]))
+    }, [pads])
 
     useEffect(() => {
         if (navigator.requestMIDIAccess) {
@@ -35,7 +48,7 @@ const TSDThingy = () => {
     return (
         <>
             {midi ? 'MIDI!' : 'No MIDI :('}
-            {Array.from(message).map(part => <h1>{part}</h1>)}
+            {message.map((part, i) => <h1 key={i}>{part}</h1>)}
         </>
     )
 
