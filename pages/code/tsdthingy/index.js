@@ -6,7 +6,6 @@ const TSDThingy = () => {
 
     const [midi, setMidi] = useState(null)
     const [message, setMessage] = useState([])
-    const [pads, setPads] = useState([])
 
     const onMIDIMessage = (message) => {
         message = Array.from(message.data)
@@ -14,14 +13,8 @@ const TSDThingy = () => {
     }
 
     useEffect(() => {
-        if (message[0] === 144) {
-            setPads([...pads, message])
-        }
+        console.log(message)
     }, [message])
-
-    useEffect(() => {
-        console.log(pads.map(pad => pad[1]))
-    }, [pads])
 
     useEffect(() => {
         if (navigator.requestMIDIAccess) {
