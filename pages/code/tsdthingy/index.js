@@ -7,7 +7,7 @@ const wholetoneScale = scaleQuantize()
     .domain([0, 10000])
     .range(wholetone);
 
-const TSDThingy = ({ req }) => {
+const TSDThingy = ({ query }) => {
 
     const [midi, setMidi] = useState(null)
     const [message, setMessage] = useState([])
@@ -19,6 +19,7 @@ const TSDThingy = ({ req }) => {
     }
 
     useEffect(() => {
+        console.log(query)
         async function fetchData() {
             const data = await fetch('/static/code/tsdthingy/angamonths.json')
             const json = await data.json()
@@ -67,6 +68,10 @@ const TSDThingy = ({ req }) => {
         </>
     )
 
+}
+
+TSDThingy.getInitialProps = ({ query }) => {
+    return { query }
 }
 
 export default TSDThingy
