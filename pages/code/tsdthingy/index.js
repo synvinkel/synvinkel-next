@@ -33,7 +33,13 @@ const TSDThingy = ({ query }) => {
         if (message.length > 0) {
             console.log(message)
             const pad = pads.indexOf(message[1])
-            console.log(images[pad])
+            const image = images[pad]
+            Object.keys(image.bands).forEach(key => {
+                const band = image.bands[key]
+                const note = wholetoneScale(band)
+                console.log(note)
+            })
+            console.log(image)
         }
     }, [message])
 
