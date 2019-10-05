@@ -1,6 +1,5 @@
 import withLayout from '../../../components/Layout'
 import { useRef, useEffect, useState } from 'react'
-import { runInThisContext } from 'vm'
 
 class Sketch {
     constructor(canvas, n) {
