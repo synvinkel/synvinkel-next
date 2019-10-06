@@ -14,10 +14,11 @@ class Sketch {
         this.height = 540
         this.canvas.width = this.width
         this.canvas.height = this.height
+        this.video.width = this.width
+        this.video.height = this.height
 
-        // this.mobilenet = await ml5.imageClassifier('MobileNet', this.video)
-
-        // this.mobilenet.predict(this.gotResults)
+        this.mobilenet = await ml5.imageClassifier('MobileNet', this.video)
+        this.mobilenet.predict(this.gotResults)
 
         this.loop()
     }
@@ -27,6 +28,7 @@ class Sketch {
             console.error(error)
         } else {
             this.setPrediction(pred)
+            this.mobilenet.predict(this.gotResults)
         }
     }
 
@@ -69,10 +71,13 @@ export default function ImageClassifier() {
         <>
             <canvas ref={canvasRef} />
             <video autoPlay={true} ref={videoRef} />
-            {prediction && <div>{prediction.map(pred => <p key={pred.label}><b>{pred.label.split(',')[0]}:</b> {pred.confidence}</p>)}</div>}
+            {prediction && <div className="pred">{prediction.map(pred => <p key={pred.label}><b>{pred.label.split(',')[0]}:</b> {pred.confidence}</p>)}</div>}
             <style jsx>{`
                 video {
                     display: none;
+                }
+                .pred{
+                    width: 400px;
                 }
             `} </style>
         </>
