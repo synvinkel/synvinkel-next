@@ -12,7 +12,7 @@ const ML5 = ({ query }) => {
     return (
         <div className="container">
             <ImageClassifier />
-            <style jsx>{`
+            <style global jsx>{`
                 .container{
                     height: 100vh;
                     display: flex;
@@ -23,6 +23,11 @@ const ML5 = ({ query }) => {
                 input {
                     width: 720px;
                     margin-top: 10px;
+                }
+
+                html, body{
+                    margin: 0;
+                    padding: 0;
                 }
                 `} </style>
         </div>
