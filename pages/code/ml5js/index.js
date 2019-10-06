@@ -1,15 +1,18 @@
 import withLayout from '../../../components/Layout'
 import dynamic from 'next/dynamic'
+import { useEffect } from 'react'
 
-const ImageClassifier = dynamic(() => import('../../../components/code/ml5js/imageclassification'), {
-    loading: () => <p>Loading...</p>,
-    ssr: false
-})
+const ML5 = ({ query }) => {
 
-export default withLayout(() => (
-    <div className="container">
-        <ImageClassifier />
-        <style jsx>{`
+    const ImageClassifier = dynamic(() => import(`../../../components/code/ml5js/${query.example}`), {
+        loading: () => <p>Loading...</p>,
+        ssr: false
+    })
+
+    return (
+        <div className="container">
+            <ImageClassifier />
+            <style jsx>{`
                 .container{
                     height: 100vh;
                     display: flex;
@@ -22,5 +25,12 @@ export default withLayout(() => (
                     margin-top: 10px;
                 }
                 `} </style>
-    </div>
-), 'ml5 imageclassification')
+        </div>
+    )
+}
+
+ML5.getInitialProps = ({ query }) => {
+    return { query }
+}
+
+export default ML5
