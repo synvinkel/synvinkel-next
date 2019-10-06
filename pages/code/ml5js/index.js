@@ -1,6 +1,4 @@
-import withLayout from '../../../components/Layout'
 import dynamic from 'next/dynamic'
-import { useEffect } from 'react'
 
 const ML5 = ({ query }) => {
 
