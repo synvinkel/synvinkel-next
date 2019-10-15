@@ -2,20 +2,22 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const Header = ({ current }) => {
-    
+
     const router = useRouter()
     const linkstyle = (href) => href === router.pathname ? (
-        {opacity: 1}
-    ):(
-        {opacity: 0.5}
-    )
+        { opacity: 1 }
+    ) : (
+            { opacity: 0.5 }
+        )
 
     return (
         <div className="header">
             <div className="logo-container">
-                <div className="logo">
-                    SYNVINKEL
-                </div>
+                <Link href="/">
+                    <div className="logo">
+                        SYNVINKEL
+                    </div>
+                </Link>
                 <ul>
                     <li>maps</li>
                     <li>code</li>
@@ -63,6 +65,7 @@ li+li::before{
   background: #fec752;
   color: white;
   align-items: center;
+  cursor: pointer;
 }
 
 nav, nav * {
