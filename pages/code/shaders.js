@@ -290,6 +290,7 @@ const fragments = [
         gl_FragColor = vec4(color, 1.0);
     }             
     `,
+    // fence painting
     `
     #ifdef GL_ES
     precision mediump float;
@@ -320,6 +321,7 @@ const fragments = [
         gl_FragColor = vec4(color, 1.0);
     }        
     `,
+    // Color mixing with mix()
     `
     #ifdef GL_ES
     precision mediump float;
@@ -346,14 +348,14 @@ const fragments = [
 
 const Shaders = () => {
 
-    const width = 400, height = 400
+    const width = 500, height = 500
 
     return (
         <>
             <main>
-                <p style={{ width: "100%" }}>
-                    Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
-                </p>
+            <p style={{width: "100%", padding: "50px"}}>
+                Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
+            </p>
                 {fragments.slice().reverse().map((fragment, i) => (
 
                     <div className="canvascontainer" key={i}>
@@ -361,7 +363,7 @@ const Shaders = () => {
                             width={width} height={height}
                             fragment={fragment}
                         />
-                        <p>{fragments.length - (i+1)}</p>
+                        <p>{fragments.length - (i + 1)}</p>
                     </div>
                 ))}
 
@@ -379,6 +381,7 @@ main {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
+    justify-content: center;
     max-width: 1600px;
 }
 
