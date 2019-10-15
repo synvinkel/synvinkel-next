@@ -193,6 +193,7 @@ const Shaders = () => {
                     />
                     <p>0007</p>
                 </div>
+
                 <div className="canvascontainer">
                     <GLSLCanvas
                         width={width} height={height}
@@ -394,6 +395,72 @@ const Shaders = () => {
                     />
                     <p>0013</p>
                 </div>
+
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                    #ifdef GL_ES
+                    precision mediump float;
+                    #endif
+                    
+                    uniform vec2 u_resolution;
+                    uniform vec2 u_mouse;
+                    uniform float u_time;
+
+                    float plot(vec2 st, float pct){
+                        return  smoothstep(pct-0.02, pct, st.y) -
+                                smoothstep(pct, pct+0.02, st.y);
+                    }
+                    void main() {
+                        vec2 st = gl_FragCoord.xy/u_resolution;
+                        
+                        // float y = ;
+                        // float y = 1.0 - pow(abs(st.x -0.5), 0.5);
+                        // float y = 1.0 - pow(abs(st.x - .5), 1.0);
+                        // float y = 1.0 - pow(abs(st.x-.5), 1.5);
+                        float y = 1.0 - pow(abs(st.x-.5), 1.5);
+
+                        vec3 color = vec3(y);
+
+                        float pct = plot(st, y);
+                        color = (1.0-pct)*color+pct*vec3(0.0, 1.0, 0.0);
+                        
+                        gl_FragColor = vec4(color, 1.0);
+                    }        
+                    `}
+                    />
+                    <p>0014</p>
+                </div>
+
+                <div className="canvascontainer">
+                    <GLSLCanvas
+                        width={width} height={height}
+                        fragment={`
+                    #ifdef GL_ES
+                    precision mediump float;
+                    #endif
+                    
+                    uniform vec2 u_resolution;
+                    uniform float u_time;
+
+                    vec3 colorA = vec3(0.31,0.75,0.8);
+                    vec3 colorB = vec3(0.8,0.31,0.64);
+                  
+                    void main(){
+                        vec3 color = vec3(0.0);
+
+                        float pct = (sin(u_time)+1.0)/2.0;
+
+                        color = mix(colorA, colorB, pct);
+
+                        gl_FragColor = vec4(color, 1.0);
+                    }
+                    `}
+                    />
+                    <p>0015</p>
+                </div>
+                
 
                 <style jsx global>{`
 body {
