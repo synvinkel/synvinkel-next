@@ -1,13 +1,6 @@
 import dynamic from 'next/dynamic'
-import { useEffect } from 'react'
 
 import withLayout from '../../components/Layout'
-import Header from '../../components/Header'
-
-const GLSLCanvas = dynamic(() => import('../../components/code/shaders'), {
-    ssr: false,
-    loading: () => null
-})
 
 const fragments = [
     `
@@ -308,10 +301,10 @@ const fragments = [
         vec2 st = gl_FragCoord.xy/u_resolution;
         
         // float y = ;
-        // float y = 1.0 - pow(abs(st.x -0.5), 0.5);
+        float y = 1.0 - pow(abs(st.x -0.5), 0.5);
         // float y = 1.0 - pow(abs(st.x - .5), 1.0);
         // float y = 1.0 - pow(abs(st.x-.5), 1.5);
-        float y = 1.0 - pow(abs(st.x-.5), 1.5);
+        // float y = 1.0 - pow(abs(st.x-.5), 1.5);
 
         vec3 color = vec3(y);
 
@@ -343,12 +336,40 @@ const fragments = [
         gl_FragColor = vec4(color, 1.0);
     }
     `,
+    // Color mixing with shaping function
+    `
+    #ifdef GL_ES
+    precision mediump float;
+    #endif
+    
+    uniform vec2 u_resolution;
+    uniform float u_time;
 
+    vec3 colorA = vec3(0.31,0.75,0.8);
+    vec3 colorB = vec3(0.8,0.31,0.64);
+  
+    void main(){
+        vec3 color = vec3(0.0);
+
+        // float pct = (sin(u_time)+1.0)/2.0;
+        float pct = smoothstep(.0, 1., (sin(u_time * 3.0) + 1.) / 2. );
+
+        color = mix(colorA, colorB, pct);
+
+        gl_FragColor = vec4(color, 1.0);
+    }
+    `,
 ]
 
 const Shaders = () => {
 
     const width = 500, height = 500
+
+    const GLSLCanvas = dynamic(() => import('../../components/code/shaders'), {
+        ssr: false,
+        loading: () => <div style={{width, height, background: "gray"}}/>
+    })
+    
 
     return (
         <>
