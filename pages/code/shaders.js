@@ -403,16 +403,16 @@ const Shaders = () => {
 
     const GLSLCanvas = dynamic(() => import('../../components/code/shaders'), {
         ssr: false,
-        loading: () => <div style={{width, height, background: "gray"}}/>
+        loading: () => <div style={{ width, height, background: "gray" }} />
     })
-    
+
 
     return (
         <>
             <main>
-            <p style={{width: "100%", padding: "50px"}}>
-                Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
-            </p>
+                <p style={{ width: "100%", padding: "50px" }}>
+                    Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
+                </p>
                 {fragments.slice().reverse().map((fragment, i) => (
 
                     <div className="canvascontainer" key={i}>
@@ -425,29 +425,29 @@ const Shaders = () => {
                 ))}
 
                 <style jsx global>{`
-body {
-    padding: 0;
-    margin: 0;
-}
-            `}</style>
+                    body {
+                        padding: 0;
+                        margin: 0;
+                    }
+                `}</style>
 
                 <style jsx>{`
-main {
-    margin: 0 auto;
-    padding: 0;
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 1600px;
-}
+                    main {
+                        margin: 0 auto;
+                        padding: 0;
+                        display: flex;
+                        flex-direction: row-reverse;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        max-width: 1600px;
+                    }
 
-.canvascontainer {
-    position: relative;
-}
-.canvascontainer p {
-    font-size: 0.8rem;
-}
+                    .canvascontainer {
+                        position: relative;
+                    }
+                    .canvascontainer p {
+                        font-size: 0.8rem;
+                    }
                 `}</style>
             </main>
         </>
