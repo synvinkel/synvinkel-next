@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { useState } from 'react'
 
 import withLayout from '../../components/Layout'
 
@@ -399,12 +400,21 @@ const fragments = [
 
 const Shaders = () => {
 
+    const [page, setPage] = useState(0)
+    const nInPage = 9
+    const from = page * nInPage
+    const to = (page + 1) * nInPage
+
     const width = 500, height = 500
 
     const GLSLCanvas = dynamic(() => import('../../components/code/shaders'), {
         ssr: false,
         loading: () => <div style={{ width, height, background: "gray" }} />
     })
+
+    const fragmentsNumbered = fragments.map((fragment, index) => ({
+        fragment, index
+    }))
 
 
     return (
@@ -413,25 +423,33 @@ const Shaders = () => {
                 <p style={{ width: "100%", padding: "50px" }}>
                     Working through <a href="https://thebookofshaders.com" target="_blank">Book of Shaders</a>
                 </p>
-                {fragments.slice().reverse().map((fragment, i) => (
+                {fragmentsNumbered.slice().reverse().slice(from, to).map(({fragment, index}) => (
 
-                    <div className="canvascontainer" key={i}>
+                    <div className="canvascontainer" key={index}>
                         <GLSLCanvas
                             width={width} height={height}
                             fragment={fragment}
                         />
-                        <p>{fragments.length - (i + 1)}</p>
+                        <p>{index}</p>
                     </div>
                 ))}
+            </main>
 
-                <style jsx global>{`
+            <nav>
+                <button
+                    onClick={() => setPage(page + 1)}>
+                    Next page
+                </button>
+            </nav>
+
+            <style jsx global>{`
                     body {
                         padding: 0;
                         margin: 0;
                     }
                 `}</style>
 
-                <style jsx>{`
+            <style jsx>{`
                     main {
                         margin: 0 auto;
                         padding: 0;
@@ -448,8 +466,18 @@ const Shaders = () => {
                     .canvascontainer p {
                         font-size: 0.8rem;
                     }
+
+                    nav {
+                        display: flex;
+                        justify-content: center;
+                        height: 100px;
+                        align-items: start;
+                    }
+
+                    button{
+                        cursor: pointer;
+                    }
                 `}</style>
-            </main>
         </>
     )
 }
