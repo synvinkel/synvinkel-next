@@ -18,7 +18,12 @@ const Page = () => {
 
             <main>
 
-                <TestSketch />
+                <div style={{
+                    width: "100%",
+                    height: "400px",
+                }}>
+                    <TestSketch />
+                </div>
 
             </main>
         </div>

@@ -1,15 +1,16 @@
-import p5 from 'p5'
-import { useEffect } from 'react'
+import p5 from './p5.min.js'
+import { useEffect, useRef } from 'react'
 
-/*
+export default function useSketch(sketch) {
 
-    This works really well and all, but the p5
-    that gets bundled here is not minified in any way. Really bulky if I'm just gonna draw some boxes.
+    const domRef = useRef(null)
+    const P5Ref = useRef()
 
-*/
-
-export default function useP5(sketch, domRef){
     useEffect(() => {
-        new p5(sketch, domRef.current)
+        domRef.current.style.width = "100%"
+        domRef.current.style.height = "100%"
+        P5Ref.current = new p5(sketch, domRef.current)
     }, [])
+
+    return [domRef, P5Ref]
 }

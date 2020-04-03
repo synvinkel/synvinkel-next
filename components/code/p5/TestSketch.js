@@ -1,22 +1,28 @@
-import useP5 from ".";
-import { useRef } from "react";
+import useSketch from ".";
 
 export default function TestSketch() {
 
-    const ref = useRef()
-    useP5((s) => {
+    const [domRef] = useSketch((s) => {
 
         s.setup = () => {
-            s.createCanvas(200, 200)
+
+            const { width, height } = domRef.current.getBoundingClientRect()
+
+            s.createCanvas(width, height)
         }
 
         s.draw = () => {
-            s.background(0)
+            s.background(0, 10)
             s.fill(255)
             s.rect(s.mouseX, s.mouseY, 50, 50)
         }
-    }, ref)
 
-    return <div ref={ref} />
+        s.windowResized = () => {
+            const { width, height } = domRef.current.getBoundingClientRect()
+            s.resizeCanvas(width, height)
+        }
 
+    })
+
+    return <div ref={domRef} />
 }
