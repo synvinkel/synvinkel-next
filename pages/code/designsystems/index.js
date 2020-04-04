@@ -2,8 +2,9 @@ import dynamic from 'next/dynamic'
 
 import withLayout from '../../../components/Layout'
 import Header from '../../../components/Header'
+import Link from 'next/link'
 
-const TestSketch = dynamic(import('../../../components/code/p5/TestSketch'), {
+const Natural = dynamic(import('../../../components/code/designsystems/designaword/Natural'), {
     ssr: false
 })
 
@@ -18,13 +19,9 @@ const Page = () => {
 
             <main>
 
-                <div style={{
-                    width: "100%",
-                    height: "400px",
-                }}>
-                    <TestSketch />
-                </div>
-
+            <Link href="./designsystems/designaword">
+                <a>Design a word</a>
+            </Link>
             </main>
         </div>
 
