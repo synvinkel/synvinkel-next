@@ -10,6 +10,7 @@ const Home = () => {
       <Header />
 
       <main>
+        <Card href="/code/designsystems" img="/static/code/designsystems/icecream.png" />
         <Card href="/projects/tsdthingy" img="/static/projects/tsdthingy/tsdthingy.jpg" />
         <Card href="/code/spirals" img="/static/code/spirals/spirals.jpg" />
         <Card href="/code/geolines" img="/static/code/geolines/geolines.jpg" />
