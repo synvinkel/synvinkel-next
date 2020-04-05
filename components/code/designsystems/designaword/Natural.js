@@ -28,6 +28,6 @@ export default function Natural() {
 
     return <>
         <div ref={domRef} />
-        <p>Naturlig</p>
+        <span>Naturlig</span>
     </>
 }

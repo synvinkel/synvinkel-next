@@ -32,6 +32,6 @@ export default function Natural() {
 
     return <>
         <div ref={domRef} />
-        <p>Observant</p>
+        <span>Observant</span>
     </>
 }
