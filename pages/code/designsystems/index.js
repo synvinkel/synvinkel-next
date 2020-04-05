@@ -19,9 +19,18 @@ const Page = () => {
 
             <main>
 
-            <Link href="./designsystems/designaword">
-                <a>Design a word</a>
-            </Link>
+                <ul>
+                    <li>
+                        <Link href="./designaword">
+                            <a>Design a word</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="./icecream">
+                            <a>Icecream</a>
+                        </Link>
+                    </li>
+                </ul>
             </main>
         </div>
 
