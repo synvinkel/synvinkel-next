@@ -19,26 +19,33 @@ const Page = () => {
 
             <main>
 
-                <h1>Programming Design Systems</h1>
+                <article>
 
-                <p>
-                    Reading and working through the exercises of <a href="https://programmingdesignsystems.com/">Programming Design Systems</a>.
+                    <h1>Programming Design Systems</h1>
+
+                    <p>
+                        Reading and working through the exercises of <a href="https://programmingdesignsystems.com/">Programming Design Systems</a>.
                 </p>
 
-                <h2>Exercises</h2>
+                    <p>
+                        For doing the exercises I wrote my first custom React hook: <a href="https://gist.github.com/johnniehard/088052713d73b6f319c43e6fa69259e1#file-usesketch-js">useSketch</a>. Useful when making a lot of different <a href="https://p5js.org/">p5js</a> sketches with minimal repetetive boilerplate.
+                </p>
 
-                <ul>
-                    <li>
-                        <Link href="/code/designsystems/designaword">
-                            <a>Design a word</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/code/designsystems/icecream">
-                            <a>Icecream</a>
-                        </Link>
-                    </li>
-                </ul>
+                    <h2>Exercises</h2>
+
+                    <ul>
+                        <li>
+                            <Link href="/code/designsystems/designaword">
+                                <a>Design a word</a>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/code/designsystems/icecream">
+                                <a>Icecream</a>
+                            </Link>
+                        </li>
+                    </ul>
+                </article>
             </main>
         </div>
 
