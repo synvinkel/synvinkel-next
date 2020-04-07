@@ -11,6 +11,11 @@ const Natural = dynamic(import('../../../components/code/designsystems/designawo
 
 const Page = () => {
 
+    const exercises = [
+        { name: 'Design a word', url: '/code/designsystems/designaword' },
+        { name: 'Icecream', url: '/code/designsystems/icecream' },
+        { name: 'Procedural shapes', url: '/code/designsystems/proceduralshapes' },
+    ]
 
     return (
         <div>
@@ -34,16 +39,13 @@ const Page = () => {
                     <h2>Exercises</h2>
 
                     <ul>
-                        <li>
-                            <Link href="/code/designsystems/designaword">
-                                <a>Design a word</a>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/code/designsystems/icecream">
-                                <a>Icecream</a>
-                            </Link>
-                        </li>
+                        {exercises.map(e => (
+                            <li>
+                                <Link href={e.url}>
+                                    <a>{e.name}</a>
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </article>
             </main>
