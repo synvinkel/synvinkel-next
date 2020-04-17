@@ -19,15 +19,21 @@ const timerMachine = {
     initial: 'idle',
     states: {
         idle: { on: { NEXT: 'running' } },
-        running: { on: { NEXT: 'paus', FINISH: 'alarm' } },
-        paus: { on: { NEXT: 'running', RESET: 'idle' } },
+        running: { on: { NEXT: 'pause', FINISH: 'alarm' } },
+        pause: { on: { NEXT: 'running', RESET: 'idle' } },
         alarm: { on: { NEXT: 'idle' } }
     }
 }
 
-
 const timerTransition = (state, event) => {
     return timerMachine.states[state].on[event] || state;
+}
+
+const buttonStates = {
+    'idle': 'Start',
+    'running': 'pause',
+    'pause': 'Resume',
+    'alarm': 'Reset',
 }
 
 export default function () {
@@ -36,26 +42,39 @@ export default function () {
         timerMachine.initial
     )
 
-    const initialTime = 3
-    const scale = 1000
+    const [initialTime, setInitialTime] = useState(3000)
+    const [time, setTime] = useState(initialTime)
+
+    const second = 1000
     const fraction = 100
 
-    const [time, setTime] = useState(initialTime * scale)
 
     useInterval(() => {
-        setTime(time - (scale / fraction))
-    }, timerState === 'running' ? (scale / fraction) : null)
+        setTime(time - (second / fraction))
+    }, timerState === 'running' ? (second / fraction) : null)
 
     useEffect(() => {
-        if (timerState === 'running' && time <= 0) {
-            setTime(0)
-            timerSend('FINISH')
+        switch (timerState) {
+            case 'running':
+                if (time <= 0) {
+                    setTime(0)
+                    timerSend('FINISH')
+                }
+                break
+            case 'idle':
+                setInitialTime(time)
+            default:
+                break
         }
     }, [time])
 
     useEffect(() => {
-        if (timerState === 'idle') {
-            setTime(initialTime * scale)
+        switch (timerState) {
+            case 'idle':
+                setTime(initialTime)
+                break
+            default:
+                break
         }
     }, [timerState])
 
@@ -64,35 +83,22 @@ export default function () {
         <>
             <div >
                 The timer is <strong>{timerState}</strong>
-                <button
-                    onClick={() => timerSend('NEXT')}
-                >
-                    {
-                        timerState === 'idle' ? 'Start' :
-                            timerState === 'running' ? 'Paus' :
-                                timerState === 'pause' ? 'Resume' :
-                                    timerState === 'alarm' ? 'Reset' : ''
-                    }
-                </button>
-                {timerState === 'paus' && <button
-                    onClick={() => timerSend('RESET')}
-                >
-                    reset
-                    </button>}
+                <button onClick={() => timerSend('NEXT')} > {buttonStates[timerState]} </button>
+                {timerState === 'pause' && <button onClick={() => timerSend('RESET')} > reset </button>}
                 {timerState === 'idle' && (
                     <input
                         type="number"
-                        value={time / scale}
-                        onChange={e => setTime(e.target.value * scale)}
+                        value={time / second}
+                        onChange={e => setTime(e.target.value * second)}
                     />
                 )}
             </div>
             <div style={{ background: timerState === 'alarm' ? 'red' : 'inherit' }}>
-                {(time / scale).toFixed(1)}
+                {(time / second).toFixed(1)}
             </div>
             <FillDiv
                 time={time}
-                initialTime={initialTime * scale}
+                initialTime={initialTime}
             />
         </>
     )

@@ -22,7 +22,6 @@ export function FillDiv({
                     background: pink;
                     display: flex;
                     flex-direction: column;
-                    transition: flex .1s ease;
                 }
 
                 #elapsed {
