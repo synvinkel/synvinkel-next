@@ -13,7 +13,7 @@
 // export default Page
 
 import { useState, useReducer, useEffect, useRef } from "react"
-import useInterval from '../components/timer/useInterval'
+import { useInterval, FillDiv } from '../components/timer'
 
 const timerMachine = {
     initial: 'idle',
@@ -36,9 +36,9 @@ export default function () {
         timerMachine.initial
     )
 
-    const initialTime = 10
+    const initialTime = 3
     const scale = 1000
-    const fraction = 10
+    const fraction = 100
 
     const [time, setTime] = useState(initialTime * scale)
 
@@ -67,8 +67,12 @@ export default function () {
                 <button
                     onClick={() => timerSend('NEXT')}
                 >
-                    {timerState === 'idle' ? 'Start' :
-                    timerState === 'running' ? 'Paus' : 'Resume'}
+                    {
+                        timerState === 'idle' ? 'Start' :
+                            timerState === 'running' ? 'Paus' :
+                                timerState === 'pause' ? 'Resume' :
+                                    timerState === 'alarm' ? 'Reset' : ''
+                    }
                 </button>
                 {timerState === 'paus' && <button
                     onClick={() => timerSend('RESET')}
@@ -86,6 +90,10 @@ export default function () {
             <div style={{ background: timerState === 'alarm' ? 'red' : 'inherit' }}>
                 {(time / scale).toFixed(1)}
             </div>
+            <FillDiv
+                time={time}
+                initialTime={initialTime * scale}
+            />
         </>
     )
 } 
