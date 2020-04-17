@@ -1,14 +1,14 @@
 
 export function FillDiv({
-    time,
-    initialTime
+    elapsed,
+    targetTime
 }) {
 
     return (
         <>
             <div className="fill-container">
-                <div id="elapsed" style={{ flex: 1 - time / initialTime }} />
-                <div id="remaining" style={{ flex: time / initialTime }} />
+                <div id="elapsed" style={{ flex: elapsed / targetTime }} />
+                <div id="remaining" style={{ flex: 1 - elapsed / targetTime }} />
             </div>
             <style jsx>{`
 

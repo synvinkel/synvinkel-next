@@ -42,42 +42,44 @@ export default function () {
         timerMachine.initial
     )
 
-    const [initialTime, setInitialTime] = useState(3000)
-    const [time, setTime] = useState(initialTime)
+    const [targetTime, settargetTime] = useState(3000)
+    const [start, setStart] = useState()
+    const [elapsed, setElapsed] = useState(0)
 
     const second = 1000
-    const fraction = 100
+    const fraction = 60
 
 
     useInterval(() => {
-        setTime(time - (second / fraction))
+        setElapsed(new Date().getTime() - start)
     }, timerState === 'running' ? (second / fraction) : null)
 
     useEffect(() => {
         switch (timerState) {
             case 'running':
-                if (time <= 0) {
-                    setTime(0)
+                if (elapsed >= targetTime) {
+                    setElapsed(targetTime)
                     timerSend('FINISH')
                 }
                 break
-            case 'idle':
-                setInitialTime(time)
             default:
                 break
         }
-    }, [time])
+    }, [elapsed])
 
     useEffect(() => {
         switch (timerState) {
             case 'idle':
-                setTime(initialTime)
+                setElapsed(0)
                 break
+            case 'running':
+                if(elapsed === 0){
+                    setStart(new Date().getTime())
+                }
             default:
                 break
         }
     }, [timerState])
-
 
     return (
         <>
@@ -88,17 +90,17 @@ export default function () {
                 {timerState === 'idle' && (
                     <input
                         type="number"
-                        value={time / second}
-                        onChange={e => setTime(e.target.value * second)}
+                        value={targetTime / second}
+                        onChange={e => settargetTime(e.target.value * second)}
                     />
                 )}
             </div>
             <div style={{ background: timerState === 'alarm' ? 'red' : 'inherit' }}>
-                {(time / second).toFixed(1)}
+                {(elapsed / second).toFixed(1)}
             </div>
             <FillDiv
-                time={time}
-                initialTime={initialTime}
+                elapsed={elapsed}
+                targetTime={targetTime}
             />
         </>
     )
