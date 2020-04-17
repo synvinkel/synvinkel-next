@@ -45,6 +45,7 @@ export default function () {
     const [targetTime, settargetTime] = useState(3000)
     const [start, setStart] = useState()
     const [elapsed, setElapsed] = useState(0)
+    const [pauseTime, setPauseTime] = useState()
 
     const second = 1000
     const fraction = 60
@@ -71,11 +72,21 @@ export default function () {
         switch (timerState) {
             case 'idle':
                 setElapsed(0)
+                setPauseTime(null)
                 break
+                
             case 'running':
-                if(elapsed === 0){
+                if (elapsed === 0) {
                     setStart(new Date().getTime())
                 }
+                if (pauseTime) {
+                    const pauseTimeDelta = new Date().getTime() - pauseTime
+                    setStart(start + pauseTimeDelta)
+                }
+
+            case 'pause':
+                setPauseTime(new Date().getTime())
+
             default:
                 break
         }
@@ -96,7 +107,7 @@ export default function () {
                 )}
             </div>
             <div style={{ background: timerState === 'alarm' ? 'red' : 'inherit' }}>
-                {(elapsed / second).toFixed(1)}
+                {(targetTime / second - elapsed / second).toFixed(1)}
             </div>
             <FillDiv
                 elapsed={elapsed}
