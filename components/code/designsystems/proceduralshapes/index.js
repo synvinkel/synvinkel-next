@@ -20,7 +20,7 @@ export default function () {
 
         s.draw = () => {
             s.background(invert ? 'white' : 'black')
-            if(num > 6) {
+            if (num > 6) {
                 invert = !invert
                 s.frameCount = 0
             }
@@ -30,14 +30,14 @@ export default function () {
             s.beginShape()
             s.fill(invert ? 'black' : 'white')
             s.stroke(invert ? 'white' : 'black')
-            if(play.current){
+            if (play.current) {
                 s.rotate(s.frameCount * 0.04)
                 num = s.frameCount * 0.02 + 2
             }
             if (Number.isInteger(num)) {
                 invert = !invert
             }
-            for (let i = 0; i < num ; i++) {
+            for (let i = 0; i < num; i++) {
                 s.vertex(
                     s.cos((s.TWO_PI / num) * i + (s.PI / 2)) * radius,
                     s.sin((s.TWO_PI / num) * i + (s.PI / 2)) * radius,
@@ -46,7 +46,7 @@ export default function () {
             s.endShape()
             s.pop()
 
-           
+
         }
 
         s.windowResized = () => {
@@ -55,23 +55,65 @@ export default function () {
         }
     })
 
-    const [bezierRef] = useSketch(s => {
+    const [roundedRef] = useSketch(s => {
+
         s.setup = () => {
-            const { width, height } = bezierRef.current.getBoundingClientRect()
+            const { width, height } = roundedRef.current.getBoundingClientRect()
             s.createCanvas(width, height)
         }
 
         s.draw = () => {
-            s.background(0)
+            s.background(255)
+
+            const radius = s.width / 3
+
+            let a = 0 // (s.mouseX / s.width) * s.TWO_PI
+            a += s.PI * 0.75
+
+            s.push()
+            s.stroke('black')
+            s.noFill()
+            s.translate(s.width / 2, s.height / 2)
+
+            s.beginShape()
+
+            for (let i = 0; i < 4 + 1; i++) {
+                const x = s.cos((s.TWO_PI / 4) * i) * radius
+                const y = s.sin((s.TWO_PI / 4) * i) * radius
+
+                s.push()
+                s.translate(x, y)
+                s.noFill()
+                s.stroke('green')
+                s.ellipse(0, 0, 10, 10)
+                s.stroke('red')
+                s.ellipse(s.cos(a +( s.TWO_PI / 4) * i) * radius / 2, s.sin( a +( s.TWO_PI / 4) * i ) * radius / 2, 10, 10)
+                s.stroke('blue')
+                s.ellipse(s.cos(a + (0) * i ) * radius / 2, s.sin( a + (0) * i ) * radius / 2, 10, 10)
+                s.pop()
+                
+                s.vertex(x, y)
+            }
+
+            s.endShape()
+
+      
+
+            s.pop()
+
+            s.text(a, 10, 10)
         }
 
         s.windowResized = () => {
-            const { width, height } = bezierRef.current.getBoundingClientRect()
+            const { width, height } = roundedRef.current.getBoundingClientRect()
             s.resizeCanvas(width, height)
         }
     })
 
     return <>
+        <div className="sketch">
+            <div ref={roundedRef} />
+        </div>
         <div className="sketch"
             onClick={() => {
                 play.current = !play.current
@@ -80,9 +122,6 @@ export default function () {
             <div ref={allShapes} />
         </div>
 
-        <div className="sketch">
-            <div ref={bezierRef} />
-        </div>
         <style jsx>{`
                     .sketch {
                         width: 400px;
