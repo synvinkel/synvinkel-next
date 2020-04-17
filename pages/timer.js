@@ -67,7 +67,8 @@ export default function () {
                 <button
                     onClick={() => timerSend('NEXT')}
                 >
-                    Change
+                    {timerState === 'idle' ? 'Start' :
+                    timerState === 'running' ? 'Paus' : 'Resume'}
                 </button>
                 {timerState === 'paus' && <button
                     onClick={() => timerSend('RESET')}
