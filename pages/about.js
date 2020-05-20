@@ -19,6 +19,7 @@ const About = () => {
             <h1>Johnnie Hård</h1>
             <p>M.Sc. Geomatics, GIS and remote sensing</p>
           </header>
+          <img src="/static/images/portrait.jpg" alt="Self portrait" />
           <p>
             Software developer working with maps and geographical data. A maker and all around tinkerer enamoured with getting lost in the unknown.
           </p>

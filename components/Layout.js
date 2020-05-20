@@ -49,6 +49,10 @@ article p {
     margin-bottom: 1rem;
 }
 
+img {
+    max-width: 100%;
+}
+
 @media (max-width: 800px){
  main {
      padding: 0 10px;
