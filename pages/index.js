@@ -10,6 +10,7 @@ const Home = () => {
       <Header />
 
       <main>
+        <Card href="/notes/digitalgarden">Digital Garden</Card>
         <Card href="/code/designsystems" img="/static/code/designsystems/icecream.png" />
         <Card href="/projects/tsdthingy" img="/static/projects/tsdthingy/tsdthingy.jpg" />
         <Card href="/code/spirals" img="/static/code/spirals/spirals.jpg" />

@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
-const Card = ({ href, img }) => (
+const Card = ({ href, img, children }) => (
     <div className="card">
       <Link href={href}>
         <a>
-          <div></div>
+          <div className="content">{children}</div>
         </a>
       </Link>
   
@@ -14,11 +14,25 @@ const Card = ({ href, img }) => (
     height: 300px;
     width: 33%;
   }
+
+  .card a {
+    text-decoration: none;
+    color: black;
+    text-transform: uppercase;
+  }
   .card div {
     height: 100%;
     border: 1px solid black;
     background-image: url(${img});
     background-size: cover;
+  }
+
+  .card .content {
+    display: grid;
+    justify-content: start;
+    align-items: center;
+    font-family: sans-serif;
+    text-decoration: none;
   }
   
   @media (max-width: 800px){
