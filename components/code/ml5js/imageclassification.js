@@ -18,7 +18,7 @@ class Sketch {
         this.mobilenet = await ml5.imageClassifier('MobileNet')
 
         this.puffin = new Image()
-        this.puffin.src = '/static/code/ml5js/imageclassification/puffin.jpg'
+        this.puffin.src = '/code/ml5js/imageclassification/puffin.jpg'
         this.puffin.onload = async () => {
             console.log('puffin loaded')
             const pred = await this.mobilenet.predict(this.puffin)

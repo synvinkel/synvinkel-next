@@ -41,7 +41,7 @@ class App extends Component {
     }
 
     getData = async () => {
-        const geojson = await (await fetch('/static/code/geolines/land.geojson')).json()
+        const geojson = await (await fetch('/code/geolines/land.geojson')).json()
         console.log(geojson)
         this.setState({ geojson })
         this.init()

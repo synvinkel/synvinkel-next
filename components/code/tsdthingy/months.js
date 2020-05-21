@@ -1,5 +1,5 @@
 
-const data = require('fs').readFileSync('./static/code/tsdthingy/anga.json')
+const data = require('fs').readFileSync('./code/tsdthingy/anga.json')
 const json = JSON.parse(data)
 
 const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -19,4 +19,4 @@ images = months.map(month => {
  return monthimages[month][i]
 })
 
-require('fs').writeFileSync('./static/code/tsdthingy/angamonths.json', JSON.stringify(images, null, 4))
+require('fs').writeFileSync('./code/tsdthingy/angamonths.json', JSON.stringify(images, null, 4))

@@ -11,7 +11,7 @@ async function getData(){
     const data = await fetch(`${url}/timeseries?apikey=${key}&lng=${anga[0]}&lat=${anga[1]}&endDate=${endDate}&startDate=${startDate}&buffer=${buffer}`)
     const json = await data.json()
 
-    require('fs').writeFileSync('./static/code/tsdthingy/anga.json', JSON.stringify(json, null, 4))
+    require('fs').writeFileSync('./code/tsdthingy/anga.json', JSON.stringify(json, null, 4))
         
 }
 

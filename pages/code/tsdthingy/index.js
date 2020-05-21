@@ -24,7 +24,7 @@ const TSDThingy = ({ query }) => {
     useEffect(() => {
         console.log(query)
         async function fetchData() {
-            const data = await fetch('/static/code/tsdthingy/angamonths.json')
+            const data = await fetch('/code/tsdthingy/angamonths.json')
             const json = await data.json()
             const synth = new Tone.PolySynth(3, Tone.FMSynth).toMaster()
             setSynth(synth)

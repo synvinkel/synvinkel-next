@@ -1,17 +1,25 @@
 const withCSS = require('@zeit/next-css')
+const withMDX = require('@next/mdx')({
+    extension: /\.(md|mdx)$/,
+})
 
-module.exports = withCSS(
-    {
-        exportPathMap: function () {
-            const pages = require('./walkpages')('pages')
+module.exports = (
+    withMDX(
+        withCSS(
+            {
+                // exportPathMap: function () {
+                //     const pages = require('./walkpages')('pages')
 
-            const paths = {}
+                //     const paths = {}
 
-            pages.forEach(page => {
-                paths[page] = { page }
-            })
+                //     pages.forEach(page => {
+                //         paths[page] = { page }
+                //     })
 
-            return paths
-        }
-    }
+                //     return paths
+                // },
+                pageExtensions: ['js', 'jsx', 'mdx'],
+            }
+        )
+    )
 )
