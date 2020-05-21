@@ -9,10 +9,6 @@ function mdxPost(frontMatter) {
     // return withLayout(
     return ({ children }) => {
 
-        const slug = frontMatter.__resourcePath
-            .replace('notes/', '')
-            .replace('.mdx', '')
-
         return (
             <>
                 <MyHead title={frontMatter.title} />
