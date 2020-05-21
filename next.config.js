@@ -1,14 +1,21 @@
 const withCSS = require('@zeit/next-css')
-const withMDX = require('@next/mdx')({
-    extension: /\.(md|mdx)$/,
-})
+const withMdxEnhanced = require('next-mdx-enhanced')
 
-module.exports = (
-    withMDX(
-        withCSS(
-            {
-                pageExtensions: ['js', 'jsx', 'mdx', 'md'],
-            }
-        )
+module.exports = withMdxEnhanced({
+    layoutPath: 'layouts',
+    defaultLayout: true,
+    fileExtensions: ['mdx'],
+    remarkPlugins: [],
+    rehypePlugins: [],
+    extendFrontMatter: {
+        process: (mdxContent, frontMatter) => { },
+        phase: 'prebuild|loader|both',
+    },
+})(
+    /* your normal nextjs config */
+    withCSS(
+        {
+            pageExtensions: ['js', 'jsx', 'mdx', 'md'],
+        }
     )
 )
