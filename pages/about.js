@@ -1,7 +1,6 @@
 // import React, { useState, useEffect } from 'react'
 import withLayout from '../components/Layout'
 import Header from '../components/Header'
-import Link from 'next/link'
 
 const About = () => {
 
