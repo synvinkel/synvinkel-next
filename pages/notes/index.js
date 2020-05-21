@@ -1,4 +1,4 @@
-import { frontMatter as notes } from './**/*.mdx'
+import { frontMatter as notes } from './*.mdx'
 import withLayout from '../../components/Layout'
 import Header from '../../components/Header'
 
