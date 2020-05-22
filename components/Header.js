@@ -26,7 +26,8 @@ const Header = ({ current }) => {
             </div>
             <nav>
                 <Link href="/"><a style={linkstyle("/")}>things</a></Link>
-                <Link href="/about"><a style={linkstyle("/about")}><span>about /</span><span>contact</span></a></Link>
+                <Link href="/notes"><a style={linkstyle("/notes")}>Notes</a></Link>
+                <Link href="/about"><a style={linkstyle("/about")}><span>about</span></a></Link>
             </nav>
 
             <style jsx>{`

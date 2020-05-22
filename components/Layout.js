@@ -53,6 +53,17 @@ export const Style = () => (
          padding: 0 10px;
      }
     }
+
+    pre {
+        overflow-x: auto;
+        padding: 1em;
+        border: 1px solid aliceblue;
+        background: #333;
+    }
+
+    code {
+        color: #eee;
+    }
     `}
     </style>
 )

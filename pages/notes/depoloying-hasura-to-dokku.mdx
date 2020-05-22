@@ -1,0 +1,23 @@
+---
+title: Deploying Hasura to Dokku
+---
+
+
+I use Hasura for getting an automatically generated CRUD-layer to the database in [Triglog](https://triglog.synvinkel.org). It works really well, and has saved me a lot of time writing boring and error-prone boilerplate code.
+The only thing that has slowed me down some is jumping into it not really knowing GraphQL beyond the very basics of making a query.
+
+These are the basic steps needed to deploy Hasura if you're using Dokku:
+
+From https://github.com/hasura/graphql-engine-heroku/issues/36#issuecomment-609016274
+```
+dokku apps:create hasura
+dokku domains:add hasura hasura.my.domain.com
+dokku postgres:create hasura-db
+dokku postgres:link hasura-db hasura
+dokku config:set hasura HASURA_GRAPHQL_DATABASE_URL="<info from above command>" HASURA_GRAPHQL_ADMIN_SECRET="blahblah" HASURA_GRAPHQL_ENABLE_CONSOLE="true" 
+dokku proxy:ports-set hasura http:80:8080
+docker pull hasura/graphql-engine
+docker tag hasura/graphql-engine dokku/hasura
+dokku tags:deploy hasura
+dokku letsencrypt hasura
+```
