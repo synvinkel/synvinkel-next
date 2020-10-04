@@ -29,6 +29,7 @@
     "react-dom": "16.9.0",
     "react-markdown": "^4.2.2",
     "scribbletune": "^3.3.2",
+    "simplex-noise": "^2.4.0",
     "tone": "^13.8.25"
   }
 }
