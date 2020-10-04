@@ -18,6 +18,11 @@ class Sketch {
     }
 
     setup = () => {
+        this.resize()
+        this.loop()
+    }
+
+    resize = () => {
         this.width = window.innerWidth
         this.height = window.innerHeight
         this.canvas.width = this.width
@@ -27,10 +32,6 @@ class Sketch {
         this.rows = 1 + this.height / this.res
 
         this.newField()
-
-        console.log(this.field)
-
-        this.loop()
     }
 
     newField = () => {
@@ -64,7 +65,7 @@ class Sketch {
         return parseInt(`${a}${b}${c}${d}`, 2)
     }
 
-    fill = (row, col) => {
+    fill = (row, col, color) => {
         const x = this.res * col
         const y = this.res * row
         const u = this.res / 2
@@ -73,7 +74,7 @@ class Sketch {
         c.save()
         c.translate(x, y)
         // c.fillStyle = 'white'
-        c.fillStyle = '#a8605d'
+        c.fillStyle = color || '#a8605d'
         c.beginPath()
 
         switch (this.getId(row, col)) {
@@ -144,35 +145,35 @@ class Sketch {
             case 11:
                 c.moveTo(0, 0)
                 c.lineTo(u, 0)
-                c.lineTo(u*2, u)
-                c.lineTo(u*2, u*2)
-                c.lineTo(0, u*2)
+                c.lineTo(u * 2, u)
+                c.lineTo(u * 2, u * 2)
+                c.lineTo(0, u * 2)
                 break
             case 12:
                 c.moveTo(0, 0)
-                c.lineTo(u*2, 0)
-                c.lineTo(u*2, u)
+                c.lineTo(u * 2, 0)
+                c.lineTo(u * 2, u)
                 c.lineTo(0, u)
                 break
             case 13:
                 c.moveTo(0, 0)
-                c.lineTo(u*2, 0)
-                c.lineTo(u*2, u)
-                c.lineTo(u, u*2)
-                c.lineTo(0, u*2)
+                c.lineTo(u * 2, 0)
+                c.lineTo(u * 2, u)
+                c.lineTo(u, u * 2)
+                c.lineTo(0, u * 2)
                 break
             case 14:
                 c.moveTo(0, 0)
-                c.lineTo(u*2, 0)
-                c.lineTo(u*2, u*2)
-                c.lineTo(u, u*2)
+                c.lineTo(u * 2, 0)
+                c.lineTo(u * 2, u * 2)
+                c.lineTo(u, u * 2)
                 c.lineTo(0, u)
                 break
             case 15:
                 c.moveTo(0, 0)
-                c.lineTo(u*2, 0)
-                c.lineTo(u*2, u*2)
-                c.lineTo(0, u*2)
+                c.lineTo(u * 2, 0)
+                c.lineTo(u * 2, u * 2)
+                c.lineTo(0, u * 2)
 
         }
 
@@ -189,15 +190,14 @@ class Sketch {
 
 
         this.ctx.save()
-
         for (let row = 0; row < this.rows - 1; row++) {
             for (let col = 0; col < this.cols - 1; col++) {
                 const x = this.res * col
                 const y = this.res * row
 
-                
+
                 this.fill(row, col)
-                
+
                 // this.ctx.beginPath()
                 // this.ctx.fillStyle = ['white', 'black'][this.field[row][col]]
                 // this.ctx.arc(x, y, this.res / 4, 0, Math.PI * 2, true)
@@ -206,6 +206,14 @@ class Sketch {
                 // this.ctx.fillText(this.getId(row, col), x + this.res * 0.2, y + this.res * 0.6)
             }
         }
+
+        this.ctx.translate(this.res, this.res)
+        for (let row = 0; row < this.rows - 1; row++) {
+            for (let col = 0; col < this.cols - 1; col++) {
+                this.fill(row, col, '#654053')
+            }
+        }
+
 
 
         this.ctx.restore()
@@ -224,6 +232,20 @@ export default withLayout(() => {
     useEffect(() => {
         setSketch(new Sketch(ref.current))
     }, [])
+
+    useEffect(() => {
+        if (sketch) {
+            const handleResize = () => {
+                console.log('reisze')
+                sketch.resize()
+            }
+
+            window.addEventListener('resize', handleResize)
+            return () => {
+                window.removeEventListener('resize', handleResize)
+            }
+        }
+    }, [sketch])
 
     return (
         <div className="container">
