@@ -1,0 +1,50 @@
+---
+title: Hand wired mechanical keyboard
+date: 2017-05-30 00:00:00 Z
+tags:
+- built
+- laser cutting
+- electronics
+author: Johnnie
+subtitle: So apparently people make their own keyboards and they look real good. I
+  had to make one of my own.
+---
+
+Sometime back in dark and cold december, looking to buy a keyboard with a split spacebar (left half backspace, right half space) I stumbled upon [r/mechanicalkeyboards](https://www.reddit.com/r/MechanicalKeyboards/). I had to have one of those 60% keyboards, but spending 2000 sek on a keyboard isn't really my thing. But spending the exact same amount of money on *building one*? Any day!
+
+The parts took a great deal of time to arrive and I ordered a couple of things i shouldn't have (look out for counterfeit Teensy boards). But I eventually could get around to actually building the thing.
+
+# Finished
+
+
+![side view](/images/tangentbordet/side-view.jpg)
+*Side view.*
+
+![insides](/images/tangentbordet/inside.jpg)
+*Insides, all hand-wired.*
+
+![top view](/images/tangentbordet/top-view.jpg)
+*Top view, the keycaps are from [WASD](http://www.wasdkeyboards.com/) with a custom layout. They have an SVG template that you can just fill with your own characters in InkScape (the templates didn't play well with Illustrator).*
+
+
+# Resources
+
+Hand wiring your own mechanical keyboard turned out to be one of those things that were'nt all that straight forward to find good information on. But there are some good tools, guides and build logs out there, half of them buried in 70 page forum threads. These are the reources that helped me the most:
+
+* [matt3o - How to build your very own keyboard firmware](https://deskthority.net/workshop-f7/how-to-build-your-very-own-keyboard-firmware-t7177.html)
+
+* [matt3o - BrownFox step by step](https://deskthority.net/workshop-f7/brownfox-step-by-step-t6050.html) *the wiring part of the build.*
+
+* [keyboard-layout-editor](http://www.keyboard-layout-editor.com/##@@=~%0A%60&=!%0A1&=%2F@%0A2&=%23%0A3&=$%0A4&=%25%0A5&=%5E%0A6&=%2F&%0A7&=*%0A8&=(%0A9&=)%0A0&=%2F_%0A-&=+%0A%2F=&_w:2%3B&=Backspace%3B&@_w:1.5%3B&=Tab&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&=%7B%0A%5B&=%7D%0A%5D&_w:1.5%3B&=%7C%0A%5C%3B&@_w:1.75%3B&=Caps%20Lock&=A&=S&=D&=F&=G&=H&=J&=K&=L&=%2F:%0A%2F%3B&=%22%0A'&_w:2.25%3B&=Enter%3B&@_w:2.25%3B&=Shift&=Z&=X&=C&=V&=B&=N&=M&=%3C%0A,&=%3E%0A.&=%3F%0A%2F%2F&_w:2.75%3B&=Shift%3B&@_w:1.25%3B&=Ctrl&_w:1.25%3B&=Win&_w:1.25%3B&=Alt&_a:7&w:6.25%3B&=&_a:4&w:1.25%3B&=Alt&_w:1.25%3B&=Win&_w:1.25%3B&=Menu&_w:1.25%3B&=Ctrl)
+
+* [Plate & Case Builder](http://builder.swillkb.com/)
+
+* [Stockholm Makerspace](https://www.makerspace.se/) where I do my laser cutting (and many other things).
+
+The output of the *keyboard-layout-editor* can be put into the *Plate & Case Builder* to generate *.dxf* files ready for laser cutting. Makes making the case super simple.
+
+# Warning
+
+Since I used 3 mm plywood for the case, the regular cherry mx stabilizers didn't work. Not the  plate mount ones, not the PCB mount ones. If you build with a thick plate, you have to go with Costar stabilizers. 
+
+I ended up having to modify the plate mount ones I bought since I didn't want to wait another several weeks to get the build done. It works, but the stabilizers are now glued to the space bar because they kept falling out. Not the ideal solution. 
