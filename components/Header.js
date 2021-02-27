@@ -4,11 +4,12 @@ import { useRouter } from 'next/router'
 const Header = ({ current }) => {
 
     const router = useRouter()
-    const linkstyle = (href) => href === router.pathname ? (
-        { opacity: 1 }
-    ) : (
-            { opacity: 0.5 }
-        )
+
+    const links = [
+        {href: "/", label: "things"},
+        {href: "/notes", label: "notes"},
+        {href: "/about", label: "about"},
+    ]
 
     return (
         <div className="header">
@@ -25,9 +26,9 @@ const Header = ({ current }) => {
                 </ul>
             </div>
             <nav>
-                <Link href="/"><a style={linkstyle("/")}>things</a></Link>
-                <Link href="/notes"><a style={linkstyle("/notes")}>Notes</a></Link>
-                <Link href="/about"><a style={linkstyle("/about")}><span>about</span></a></Link>
+                {links.map(l => (
+                    <Link href={l.href}><a className={l.href === router.pathname ? "active" : "inactive"}>{l.label}</a></Link>
+                ))}
             </nav>
 
             <style jsx>{`
@@ -79,7 +80,20 @@ nav, nav * {
 a {
   text-decoration: none;
   color: black;
+  opacity: 0.5;
   text-transform: uppercase;
+  will-change: color;
+  transition: color 200ms ease-out;
+}
+
+a.active {
+    opacity: 1;
+    color: black;
+}
+
+a.inactive:hover {
+    color: #fec752;
+    transition: color 100ms ease-in;
 }
 
 a+a{
