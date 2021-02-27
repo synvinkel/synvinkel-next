@@ -25,6 +25,15 @@ const Card = ({ href, img, children }) => (
     border: 1px solid black;
     background-image: url(${img});
     background-size: cover;
+
+    will-change: transform;
+    transform: scale(1);
+    transition: transform 150ms ease-in;
+  }
+
+  .card div:hover {
+    transition: transform 100ms ease-out;
+    transform: scale(1.01) translateY(-3px);
   }
 
   .card .content {
